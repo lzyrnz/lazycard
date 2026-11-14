@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LazyCard – Your business card, minus the paper</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Hanken+Grotesk:wght@400;500;700&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/templates.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+</head>
+<body>
+<div class="sp" id="sp"></div>
+<div class="snav" id="snav"><div class="wrap"><a class="logo" href="#home"><span class="lm"><svg viewBox="0 0 40 28" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path class="a1" d="M18 10.5a5 5 0 0 1 0 7"/><path class="a2" d="M23 7a10 10 0 0 1 0 14"/><path class="a3" d="M28 3.5a15 15 0 0 1 0 21"/></g><circle cx="11" cy="14" r="2.6" fill="#fff"/></svg></span><span class="lt">Lazy<i>Card</i></span></a><div class="nl"><a class="h" href="#how">How it works</a><a class="h" href="#get">Get yours</a><a class="h" href="#faq">FAQ</a><button class="tth" aria-label="Toggle light or dark mode">◐</button><a class="btn" href="#get">Get your card</a><button class="bg" aria-label="Open menu"><span></span></button></div></div></div>
+<div class="mm" id="mm" hidden><button class="mx" id="mx" aria-label="Close menu">✕</button><a href="#how">How it works</a><a href="#get">Get yours</a><a href="#faq">FAQ</a><a class="btn" href="#get">Get your card</a></div>
+<a class="mcta" id="mcta" href="#get">Get your card</a>
+<div class="adm" id="adm" hidden><b>Card design preview</b><p>Pick images for the Lazy card. Use a credit-card shape, about 1012 x 638 px. This preview is only on your screen.</p><label>Front image<input type="file" id="af" accept="image/*"></label><label>Back image<input type="file" id="ab" accept="image/*"></label><p>To keep your design, save the images as card-front.png and card-back.png next to index.html, then set cardFront and cardBack in app.js.</p><button class="btn g" id="ax">Reset</button></div>
+<div id="home">
+<header class="hero"><span class="orb o1"></span><span class="orb o2"></span><div class="wrap">
+<nav><a class="logo" href="#home"><span class="lm"><svg viewBox="0 0 40 28" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path class="a1" d="M18 10.5a5 5 0 0 1 0 7"/><path class="a2" d="M23 7a10 10 0 0 1 0 14"/><path class="a3" d="M28 3.5a15 15 0 0 1 0 21"/></g><circle cx="11" cy="14" r="2.6" fill="#fff"/></svg></span><span class="lt">Lazy<i>Card</i></span></a><div class="nl"><a class="h" href="#how">How it works</a><a class="h" href="#get">Get yours</a><a class="h" href="#faq">FAQ</a><button class="tth" aria-label="Toggle light or dark mode">◐</button><a class="btn" href="#get">Get your card</a><button class="bg" aria-label="Open menu"><span></span></button></div></nav>
+<div class="hg"><div>
+<h1><span class="w" style="--i:0">Meet</span> <span class="w" style="--i:1">once.</span> <span class="w" style="--i:2">Be</span> <span class="w" style="--i:3">remembered.</span></h1>
+<p class="l">Meet Lazy, the NFC card that does the introductions for you. Tap it on any phone and your page opens instantly. No app, no reprinting, nothing to fumble for.</p>
+<a class="btn" href="#get">Get your LazyCard</a> <a class="btn g" href="#how">See how it works</a>
+<p class="hint" style="margin-top:26px">Try it: drag the card onto the phone</p></div>
+<div class="tilt" id="tilt"><div class="stage run" id="st">
+<span class="rg"></span><span class="rg r2"></span>
+<div class="phone"><div class="scr"><div class="lock"><b>9:41</b><span>Hold your card near the top</span></div><div class="prof"><div class="card" id="hcard"></div></div></div></div>
+<div class="nfc"><i></i><em></em><span>Tap to connect</span><strong>Lazy</strong></div>
+<div class="svd">Card opened</div>
+</div></div></div></div></header>
+
+<div class="wrap">
+<section class="sec" id="how"><h2>Get it. Set it. Tap it.</h2><p class="sub">That's the whole job. Four steps and you never hand out paper again.</p>
+<div class="how four"><div><h3>Get your card</h3><p>Order your Lazy NFC card from us. It arrives ready to set up.</p></div><div><h3>Set up your page</h3><p>Tap your new card and the setup opens. Pick a style, add your details, publish.</p></div><div><h3>Tap</h3><p>Hold your card to the back of any modern phone.</p></div><div><h3>Connect</h3><p>Your page opens instantly. Call, message, or follow you in one tap.</p></div></div></section>
+
+<section class="sec"><div class="meet"><div class="c3dw" id="c3dw"><div class="fl"><div class="c3t"><div class="c3d" id="c3d" role="button" tabindex="0" aria-label="Flip the card"><div class="cfc f"><span class="chip"></span><b>Lazy</b><small>Tap once. Done.</small></div><div class="cfc bk"><i class="ar"></i><span>Hold near the top of a phone</span></div></div></div></div></div>
+<div><h2>Meet Lazy.</h2><p class="sub">Slim, simple, and always in your wallet. Tap it when it counts and let your page do the talking.</p><p class="cap" style="text-align:left;margin:0">Tap the card to flip it.</p></div></div></section>
+
+<section class="sec"><div class="mix"><div><h2>Your card, your rules</h2><p class="sub">Every line is optional. Share your Instagram, hide your phone number, add a booking link. Switch things on and off and watch the card change.</p><div class="pills" id="pills" role="group" aria-label="Toggle card details"></div></div>
+<div class="mixp"><div class="phone"><div class="scr"><div class="card" id="mcard"></div></div></div><p class="cap">Scroll inside the phone to see everything</p></div></div></section>
+
+<section class="sec" id="get"><h2>Two ways to get yours</h2><p class="sub">One card, made for one person. Start with a ready-made design, or have us build something that is completely you.</p>
+<div class="get"><div class="opt"><h3>Standard LazyCard</h3><p class="tagl">A ready-made design, ready to tap.</p><div class="price" data-price></div><ul><li>Your own Lazy NFC card</li><li>A professionally designed template</li><li>You choose exactly what shows</li><li>A personal link, ready to write to your card</li><li>Set up in a few minutes</li></ul><a class="btn" href="#setup">Set up my page</a><p class="fine">Don't have your card yet? <a data-fb>Message us to order one.</a></p></div>
+<div class="opt cu"><h3>Customize LazyCard</h3><p class="tagl">Designed around you, not picked from a list.</p><div class="price np">Let's design it together</div><ul><li>A custom card design</li><li>A custom website to match</li><li>Your colors, your style, your layout</li><li>Talk to us directly</li></ul><a class="btn" data-fb>Message us on Facebook</a></div></div></section>
+
+<section class="sec" id="faq"><h2>Good to know</h2><div class="faq"><details><summary>Do people need an app?</summary><p>No. Your card opens your profile in their phone's browser.</p></details><details><summary>Which phones work?</summary><p>Most modern iPhones and Android phones can read NFC cards.</p></details><details><summary>Do I have to show everything?</summary><p>Not at all. Every line has its own switch, so you only show what you choose.</p></details><details><summary>How do I get a card?</summary><p>Message us on Facebook and we'll sort out your Lazy card. Once you have it, set up your page right here.</p></details><details><summary>How do I set up my page?</summary><p>Open Set up my page, pick a design, add your details, and you get a personal link. Write that link onto your Lazy card with any free NFC app and you are done.</p></details><details><summary>Can I change my details later?</summary><p>Yes. Open the setup, paste your link to load your card, change what you like, and write the new link to your card.</p></details><details><summary>Want something custom?</summary><p>Choose Customize LazyCard and message us on Facebook. We design your card and your website around you.</p></details></div></section>
+</div>
+<section class="cta"><div class="wrap"><h2>Your next introduction is one tap away</h2><a class="btn" href="#get">Get your Lazy card</a></div></section>
+</div>
+
+<div id="setup" hidden><div class="wrap">
+<nav><a class="logo" href="#home" style="color:var(--ink)"><span class="lm"><svg viewBox="0 0 40 28" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path class="a1" d="M18 10.5a5 5 0 0 1 0 7"/><path class="a2" d="M23 7a10 10 0 0 1 0 14"/><path class="a3" d="M28 3.5a15 15 0 0 1 0 21"/></g><circle cx="11" cy="14" r="2.6" fill="#fff"/></svg></span><span class="lt">Lazy<i>Card</i></span></a><div class="nl"><a class="exit" href="#home">Exit setup</a><button class="tth" aria-label="Toggle light or dark mode">◐</button></div></nav>
+<div class="setup"><div class="prog"><i id="prog"></i></div><div class="steps" id="steps"></div>
+<div class="sg"><div class="panel" id="panel"></div>
+<aside class="pv" id="pv"><button class="btn g x" id="pvx">Close preview</button><div class="pvh"><button id="tp" aria-label="Previous template">‹</button><b id="tn"></b><button id="tx" aria-label="Next template">›</button></div><div class="phone"><div class="scr"><div class="card" id="card"></div></div></div><button class="btn g sm" id="shuf">Shuffle look</button><small class="fh" style="text-align:center;max-width:300px">Sample text fills in until you type your own. Only what you type is published.</small></aside></div></div></div></div>
+<div id="view" hidden><a class="vb" id="vb" href="#setup" hidden>← Back to editing</a><div class="vw"><div class="card vcard" id="vcard"></div><p class="vm2">Made with <a data-site>LazyCard</a></p></div></div>
+<div class="lb" id="lb" hidden><button class="mx2" id="lbx" aria-label="Close">✕</button><img id="lbi" alt=""></div>
+<div class="qrm" id="qrm" hidden><div class="qb"><button class="mx2" id="qx" aria-label="Close">✕</button><h3>Share this page</h3><div class="qrs" id="qrbox"></div><p id="qurl"></p><div class="btns" style="justify-content:center"><button class="btn" id="qcp">Copy link</button><button class="btn g" id="qsh">Share</button></div></div></div>
+<div class="toast" id="toast" role="status"></div><footer><div id="soc"></div>© 2026 LazyCard. All rights reserved.</footer>
+<script src="/config.js"></script>
+<script src="/card.js"></script>
+<script src="/setup.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

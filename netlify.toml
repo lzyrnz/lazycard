@@ -1,0 +1,9 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# Any address like /yourname shows the page (the app reads the name from the address)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
