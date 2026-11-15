@@ -25,13 +25,17 @@ links:[{l:"Book a call",u:"cal.com/alex"},{l:"View my portfolio",u:"northwind.co
 pay:[{l:"GCash",v:"0900 000 0000"}]};
 const ALLK=[...F.map(f=>f[0]),...SECS.map(x=>x[0]),"av","cv"];
 const emptyX=()=>({about:"",skills:"",lang:"",cert:"",note:"",badge:"",exp:[],edu:[],svc:[],tst:[],hrs:[],links:[],pay:[]});
-const mk=(on=[],blank)=>({t:"exec",c:CO[0],k:"call",v:Object.fromEntries(F.map(f=>[f[0],blank?"":f[2]])),on:Object.fromEntries(ALLK.map(k=>[k,on.includes(k)])),img:{av:"",cv:"",gal:[]},x:blank?emptyX():JSON.parse(JSON.stringify(XS)),slug:"",published:false,pubSlug:"",lbl:{},cvp:"c",avp:"t"});
+const mk=(on=[],blank)=>({t:"exec",c:CO[0],k:"call",v:Object.fromEntries(F.map(f=>[f[0],blank?"":f[2]])),on:Object.fromEntries(ALLK.map(k=>[k,on.includes(k)])),img:{av:"",cv:"",gal:[]},x:blank?emptyX():JSON.parse(JSON.stringify(XS)),slug:"",published:false,pubSlug:"",lbl:{},cvp:"c",avp:"t",dirty:{}});
 /* preview only: empty switched-on items show sample text until the customer types their own */
-function demo(s){const c={...s,v:{...s.v},x:{...s.x}};F.forEach(f=>{if(c.on[f[0]]&&!String(c.v[f[0]]||"").trim())c.v[f[0]]=f[2]});SECS.forEach(([k,,,tp])=>{if(!c.on[k]||k==="gal")return;const v=c.x[k];if(tp==="list"){if(!T(v).length)c.x[k]=JSON.parse(JSON.stringify(XS[k]))}else if(!v||!String(v).trim())c.x[k]=XS[k]});return c}
+const BU=new Map();
+function blobUrl(d){if(!d||d.slice(0,5)!=="data:")return d;let u=BU.get(d);if(!u){try{const m=d.match(/^data:([^;]+);base64,(.*)$/),bin=atob(m[2]),a=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);u=URL.createObjectURL(new Blob([a],{type:m[1]}));BU.set(d,u)}catch(e){u=d}}return u}
+function demo(s){const d=s.dirty||{},im=s.img||{},c={...s,v:{...s.v},x:{...s.x},img:{av:blobUrl(im.av),cv:blobUrl(im.cv),gal:(im.gal||[]).map(blobUrl)}};
+ F.forEach(f=>{const k=f[0];if(c.on[k]&&!String(c.v[k]||"").trim()&&!d[k])c.v[k]=f[2]});
+ SECS.forEach(([k,,,tp])=>{if(!c.on[k]||k==="gal"||d[k])return;const v=c.x[k];if(tp==="list"){if(!T(v).length)c.x[k]=JSON.parse(JSON.stringify(XS[k]))}else if(!v||!String(v).trim())c.x[k]=XS[k]});return c}
 const ON0=["name","role","co","tag","phone","email","ig","li","loc","web","av"];
 const DS=mk(ON0);
 const accent=k=>TP.find(x=>x[0]===k)[3];
-const safeImg=v=>/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+\/=]+$/.test(v||"")?v:"";
+const safeImg=v=>/^(data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+\/=]+|blob:[^\s'")]+)$/.test(v||"")?v:"";
 const T=a=>(Array.isArray(a)?a:[]).filter(i=>i&&Object.values(i).some(v=>String(v).trim()));
 const chipsOf=v=>String(v||"").split(",").map(z=>z.trim()).filter(Boolean);
 const nl2=v=>esc(v).replace(/\n/g,"<br>");
@@ -48,7 +52,7 @@ function card(s,t){
  const note=on("note")&&x.note&&x.note.trim()?`<div class="nt">${esc(x.note.trim())}</div>`:"";
  const badge=on("badge")&&x.badge&&x.badge.trim()?`<div class="bd2">${esc(x.badge.trim())}</div>`:"";
  let n=0,sn=0;const lab=k=>{const l=String((s.lbl&&s.lbl[k])||"").trim();return l||(LBL.has(k)?pretty(k,g(k)):g(k))};
- const li=F.filter(f=>f[3]!=="id"&&g(f[0])).map(f=>{const[i,fn]=LK[f[0]];return `<li style="--i:${n++}"><a href="${esc(fn(g(f[0])))}" target="_blank" rel="noopener">${ib(i)}<span>${esc(lab(f[0]))}</span></a></li>`}).join("")
+ const li=F.filter(f=>f[3]!=="id"&&g(f[0])).map(f=>{const[i,fn]=LK[f[0]];const tx=lab(f[0]);return `<li class="${tx.length>17?"wide":""}" style="--i:${n++}"><a href="${esc(fn(g(f[0])))}" target="_blank" rel="noopener">${ib(i)}<span>${esc(tx)}</span></a></li>`}).join("")
   +(on("links")?T(x.links).filter(i=>i.l&&i.u).map(i=>`<li style="--i:${n++}"><a href="${esc(u("")(String(i.u).trim()))}" target="_blank" rel="noopener">${ib("↗")}<span>${esc(i.l)}</span></a></li>`).join(""):"");
  const SX=(h,b)=>`<section class="sx" style="--i:${sn++}"><h4>${h}</h4>${b}</section>`;
  const tl=a=>`<ol class="tl">${a.map((i,k)=>`<li style="--j:${k}"><b>${esc(i.t)}</b>${i.o?`<span class="o">${esc(i.o)}</span>`:""}${i.p?`<em>${esc(i.p)}</em>`:""}${i.d?`<p>${esc(i.d)}</p>`:""}</li>`).join("")}</ol>`;
@@ -60,7 +64,7 @@ function card(s,t){
  if(on("skills")&&chipsOf(x.skills).length)sx+=SX("Skills",chips(x.skills));
  if(on("svc")&&T(x.svc).length)sx+=SX("Services",T(x.svc).map(i=>`<div class="sv"><div><b>${esc(i.t)}</b>${i.d?`<small>${esc(i.d)}</small>`:""}</div>${i.p?`<span>${esc(i.p)}</span>`:""}</div>`).join(""));
  const gal=on("gal")?(im.gal||[]).map(safeImg).filter(Boolean):[];
- if(gal.length)sx+=SX("Gallery",`<div class="gl">${gal.map(v=>`<img src="${v}" alt="" loading="lazy" data-lb>`).join("")}</div>`);
+ if(gal.length)sx+=SX("Gallery",`<div class="gl g${Math.min(gal.length,6)}">${gal.map((v,i)=>`<img src="${v}" alt="Photo ${i+1}" loading="lazy" decoding="async" data-lb data-i="${i}">`).join("")}</div>`);
  if(on("tst")&&T(x.tst).length)sx+=SX("Reviews",T(x.tst).map(i=>`<blockquote><p>${esc(i.q)}</p>${i.n?`<cite>${esc(i.n)}</cite>`:""}</blockquote>`).join(""));
  if(on("hrs")&&T(x.hrs).length)sx+=SX("Opening hours",T(x.hrs).map(i=>`<div class="hr"><span>${esc(i.d)}</span><b>${esc(i.h)}</b></div>`).join(""));
  if(on("pay")&&T(x.pay).length)sx+=SX("Payment",T(x.pay).map(i=>`<div class="hr"><span>${esc(i.l)}</span><b>${esc(i.v)}</b><button class="cpy" type="button" data-copy="${esc(i.v)}">Copy</button></div>`).join(""));
@@ -76,7 +80,13 @@ const thumb=(k,sc)=>`<div class="sc" style="--s:${sc}"><div class="card" data-t=
 let tmr;function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(tmr);tmr=setTimeout(()=>t.classList.remove("on"),2400)}
 function burst(){if(reduce)return;const c=[...CO,"#E8C27A","#fff"];for(let i=0;i<36;i++){const e=document.createElement("span");e.className="cf";e.style.left=Math.random()*100+"vw";e.style.background=c[i%c.length];e.style.animationDelay=Math.random()*.4+"s";e.style.animationDuration=1.5+Math.random()*1.2+"s";document.body.appendChild(e);setTimeout(()=>e.remove(),3200)}}
 function copyText(t,ok="Copied"){try{navigator.clipboard.writeText(t).then(()=>toast(ok),()=>toast("Select the text and copy it"))}catch(e){toast("Select the text and copy it")}}
-function shrink(file,max,q,sq,type){return new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;r.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{let sw=im.width,sh=im.height,sx=0,sy=0;if(sq){const m=Math.min(sw,sh);sx=(sw-m)/2;sy=(sh-m)/2;sw=sh=m}const k=Math.min(1,max/Math.max(sw,sh)),w=Math.round(sw*k),h=Math.round(sh*k),c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(im,sx,sy,sw,sh,0,0,w,h);let d=c.toDataURL(type||"image/jpeg",q);if(!/^data:image\/(png|jpeg|webp)/.test(d))d=c.toDataURL("image/jpeg",q);res(d)};im.src=r.result};r.readAsDataURL(file)})}
+const WEBP=(()=>{try{return document.createElement("canvas").toDataURL("image/webp").slice(0,15)==="data:image/webp"}catch(e){return false}})();
+/* resize and compress in the browser until the picture fits its size budget (o.kb) */
+function shrink(file,o){return new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;r.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{
+ let sw=im.naturalWidth||im.width,sh=im.naturalHeight||im.height,sx=0,sy=0;if(o.sq){const m=Math.min(sw,sh);sx=(sw-m)/2;sy=(sh-m)/2;sw=sh=m}
+ let k=Math.min(1,o.max/Math.max(sw,sh)),q=o.alpha?.92:.86,out="",bytes=0;const type=WEBP?"image/webp":(o.alpha?"image/png":"image/jpeg");
+ for(let i=0;i<9;i++){const c=document.createElement("canvas");c.width=Math.max(1,Math.round(sw*k));c.height=Math.max(1,Math.round(sh*k));const x=c.getContext("2d");if(!o.alpha){x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height)}x.imageSmoothingQuality="high";x.drawImage(im,sx,sy,sw,sh,0,0,c.width,c.height);out=c.toDataURL(type,q);if(!/^data:image\/(png|jpeg|webp)/.test(out))out=c.toDataURL("image/jpeg",q);bytes=Math.round(out.length*.75);if(bytes<=o.kb*1024)break;if(q>.56&&!/png/.test(out.slice(0,15)))q-=.08;else k*=.86}
+ res({url:out,kb:Math.max(1,Math.round(bytes/1024))})};im.src=r.result};r.readAsDataURL(file)})}
 const API={ok:false,
  async req(method,qs,body){const c=new AbortController(),t=setTimeout(()=>c.abort(),6000);try{const r=await fetch("/api/card"+(qs||""),{method,signal:c.signal,cache:"no-store",headers:body?{"content-type":"application/json"}:undefined,body:body?JSON.stringify(body):undefined});let j=null;try{j=await r.json()}catch(e){}return{status:r.status,j}}catch(e){return{status:0,j:null}}finally{clearTimeout(t)}},
  async ping(){const r=await this.req("GET","?ping=1");this.ok=!!(r.j&&r.j.ok);return this.ok},

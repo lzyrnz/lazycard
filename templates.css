@@ -274,3 +274,83 @@
 .card[data-t=ticket] .cover{margin-bottom:0}
 .card[data-t=exec] .cover{margin-top:calc(-1*var(--pt))}
 .card .ph.im{background-repeat:no-repeat}
+
+/* ===== v3: every template has its own photo or logo treatment ===== */
+.card[data-k=biz] .ph.im{background-color:#fff;background-size:contain;background-repeat:no-repeat;background-position:center}
+/* Executive: gold medallion */
+.card[data-k=biz][data-t=exec] .ph.im{border-radius:50%;background-size:66%}
+/* Aura: living blob */
+.card[data-t=aura] .ph{border-radius:62% 38% 58% 42%/52% 48% 52% 48%;animation:morph 10s ease-in-out infinite alternate,pulse 4.5s ease-in-out infinite}
+@keyframes morph{50%{border-radius:42% 58% 38% 62%/58% 42% 58% 42%}100%{border-radius:55% 45% 62% 38%/42% 58% 42% 58%}}
+.card[data-k=biz][data-t=aura] .ph.im{border-radius:62% 38% 58% 42%/52% 48% 52% 48%;background-size:60%}
+/* Bento: avatar tile beside the name */
+.card[data-t=bento]:has(.ph){display:grid;grid-template-columns:auto 1fr;column-gap:14px;grid-auto-flow:row dense;align-content:start}
+.card[data-t=bento]:has(.ph)>*{grid-column:1/-1}
+.card[data-t=bento]:has(.ph)>.ph{grid-column:1;grid-row:span 4;align-self:start;width:92px;height:92px;margin:0 0 4px}
+.card[data-t=bento]:has(.ph)>:is(h3,.role,.bd2,.tg){grid-column:2;align-self:start}
+.card[data-t=bento]:has(.ph)>h3{font-size:26px;margin-top:4px}
+.card[data-t=bento]:has(.ph)>.bd2{margin-top:8px}
+/* Boarding pass: passport photo on the right */
+.card[data-t=ticket]:has(.ph){display:grid;grid-template-columns:1fr auto;column-gap:16px;grid-auto-flow:row dense;align-content:start}
+.card[data-t=ticket]:has(.ph)>*{grid-column:1/-1}
+.card[data-t=ticket]:has(.ph)>.ph{grid-column:2;grid-row:span 4;width:88px;height:112px;margin:0;border-radius:6px;border:2px solid #14122a;box-shadow:4px 4px 0 var(--a);align-self:start}
+.card[data-t=ticket]:has(.ph)>:is(h3,.role,.bd2,.tg){grid-column:1;align-self:start}
+.card[data-t=ticket]:has(.ph)>h3{font-size:25px}
+.card[data-k=biz][data-t=ticket] .ph.im{background-size:78%}
+/* Terminal: framed file */
+.card[data-t=term] .ph{width:100px;height:100px;border-radius:2px;margin-bottom:30px;overflow:visible;border:1px solid var(--a)}
+.card[data-t=term] .ph::before{content:"";position:absolute;inset:-7px;border:1px dashed color-mix(in srgb,var(--a) 45%,transparent);pointer-events:none}
+.card[data-t=term] .ph::after{content:"avatar.png";position:absolute;left:-7px;bottom:-27px;font-size:10.5px;color:#6f86ad;letter-spacing:.02em}
+/* Sunset: arch window in front of the sun */
+.card[data-t=sun] .ph{width:104px;height:132px;border-radius:52px 52px 14px 14px;margin-bottom:50px}
+.card[data-t=sun] .ph::before{inset:-40px -50px -20px}
+.card[data-k=biz][data-t=sun] .ph.im{border-radius:52px 52px 14px 14px;background-size:68%}
+/* Studio and Mono keep the sticker and banner; logos sit inside them */
+.card[data-k=biz][data-t=studio] .ph.im{background-size:72%}
+.card[data-k=biz][data-t=mono] .ph.im{background-size:contain}
+.card[data-k=biz][data-t=corp] .ph.im{background-size:72%}
+
+/* ===== v3: cover images, one idea per template ===== */
+.card[data-t=exec] .cover{-webkit-mask-image:linear-gradient(#000 76%,transparent);mask-image:linear-gradient(#000 76%,transparent);margin-bottom:6px}
+.card[data-t=aura] .cover{margin:0 0 18px;width:100%;border-radius:22px;aspect-ratio:16/8;box-shadow:0 0 0 1px #ffffff2e,0 18px 44px #0008}
+.card[data-t=studio] .cover{margin:2px 0 22px;width:100%;aspect-ratio:16/8;border:5px solid var(--on);border-radius:6px;transform:rotate(-1.4deg);box-shadow:0 16px 36px #0003}
+.card[data-t=bento] .cover{margin:0 0 12px;width:100%;border-radius:24px;aspect-ratio:16/8}
+.card[data-t=term] .cover{margin:0 0 16px;width:100%;border:1px solid color-mix(in srgb,var(--a) 55%,transparent);border-radius:6px;aspect-ratio:16/8;position:relative}
+.card[data-t=term] .cover::after{content:"cover.jpg";position:absolute;right:8px;bottom:6px;font-size:10.5px;color:#fff;background:#000a;padding:2px 7px;border-radius:3px}
+.card[data-t=sun] .cover{margin-bottom:-6px;clip-path:ellipse(78% 100% at 50% 0)}
+.card[data-t=ticket] .cover{margin-bottom:0}
+
+/* ===== v3: gallery layouts that adapt to the number of photos ===== */
+.card .gl{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.card .gl img{width:100%;height:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block;background:color-mix(in srgb,currentColor 10%,transparent)}
+.card .gl.g1 img{grid-column:1/-1;aspect-ratio:4/3}
+.card .gl.g2 img{grid-column:span 3}
+.card .gl.g3 img:first-child,.card .gl.g4 img:first-child,.card .gl.g6 img:first-child{grid-column:1/-1;aspect-ratio:16/10}
+.card .gl.g3 img:not(:first-child){grid-column:span 3}
+.card .gl.g4 img:not(:first-child){grid-column:span 2}
+.card .gl.g5 img:nth-child(-n+2){grid-column:span 3}.card .gl.g5 img:nth-child(n+3){grid-column:span 2}
+.card .gl.g6 img:nth-child(2),.card .gl.g6 img:nth-child(3){grid-column:span 3}.card .gl.g6 img:nth-child(n+4){grid-column:span 2}
+.card[data-t=mono] .gl img{border-radius:0;border:2px solid #0b0b0b}
+.card[data-t=term] .gl img{border-radius:3px}.card[data-t=ticket] .gl img{border-radius:8px}
+
+/* ===== v3: photo viewer with arrows and swipe ===== */
+.lb{position:fixed;inset:0;z-index:120;background:#05040cee;display:grid;place-items:center;padding:56px 12px;backdrop-filter:blur(8px)}
+.lb img{max-width:100%;max-height:100%;border-radius:14px;box-shadow:0 30px 80px #000a;object-fit:contain}
+.lbn{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:1.5px solid #ffffff55;background:#00000066;color:#fff;font-size:26px;line-height:1;cursor:pointer;z-index:2}
+.lbp{left:12px}.lbnx{right:12px}.lb.one .lbn,.lb.one #lbc{display:none}
+#lbc{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:#fff;font:600 13px 'Hanken Grotesk',system-ui,sans-serif}
+.lb .mx2{color:#fff;border-color:#ffffff55;top:14px;right:14px}
+
+/* ===== v3: tidier spacing ===== */
+.card ul{gap:7px}
+.card .sx{margin-top:14px}
+.card .role{line-height:1.35}
+.card h3{overflow-wrap:anywhere}
+@media(max-width:380px){.card h3{font-size:26px}}
+.card[data-t=aura] .ph{margin-bottom:22px}
+.card[data-t=term] .ph{margin-bottom:40px}
+.card[data-t=sun] .ph{margin-top:38px}
+.card[data-t=sun] .cover{margin-bottom:0}
+
+.card[data-t=bento] li.wide,.card[data-t=mono] li.wide{grid-column:1/-1}
+.card[data-t=bento] li.wide a,.card[data-t=mono] li.wide a{min-height:0;flex-direction:row;align-items:center}

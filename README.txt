@@ -27,6 +27,10 @@ Files
   package.json                   Tells Netlify to install its storage library
   netlify.toml, _headers         Makes /theirname addresses work
 
+Pictures
+  Photos, logos, covers and gallery pictures are resized and compressed in the browser before saving
+  (about 60 KB for a photo, 150 KB for a cover, 120 KB per gallery picture), so pages load fast.
+
 Put it online (Netlify)
   The page needs the backend function, so it must be deployed with the function.
   Drag and drop does NOT install the function's library. Use one of these:
