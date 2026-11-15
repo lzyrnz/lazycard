@@ -44,7 +44,9 @@ const RES=["setup","admin","index","api","home","favicon"];
 let SLUGV="",VS=null,was=null;
 const pathSlug=()=>{const m=location.pathname.match(/^\/([A-Za-z0-9-]{3,24})\/?$/);return m&&!RES.includes(m[1].toLowerCase())?m[1].toLowerCase():""};
 function cur(){const h=location.hash;if(/^#k[0-9A-Za-z-]{16,}$/.test(h))return"vh";if(h==="#setup")return"setup";if(!h&&/^\/setup\/?$/.test(location.pathname))return"setup";if(!h&&SLUGV)return"vs";return"home"}
-function paintView(st){VS=st;paint($("#vcard"),st,st.t);$("#view").style.setProperty("--a",st.c);const nm=st.on.name&&st.v.name;document.title=(nm?nm+" | ":"")+"LazyCard";$("#vb").hidden=!fromSetup;revealView()}
+const PG={exec:"#0a152b",corp:"#eef0f6",aura:"#0a0820",mono:"#eceef3",term:"#080d1a",ticket:"#ffffff",bento:"#e9e5ff",sun:"#25134f"};
+function pageColor(c){const h=document.documentElement;h.style.backgroundColor=c||"";document.body.style.backgroundColor=c||"";let m=document.querySelector("meta[name=theme-color]");if(!m){m=document.createElement("meta");m.name="theme-color";document.head.appendChild(m)}m.content=c||"#17132E"}
+function paintView(st){VS=st;paint($("#vcard"),st,st.t);$("#view").style.setProperty("--a",st.c);const pg=st.t==="studio"?st.c:PG[st.t]||"#0b0a1a";$("#view").style.setProperty("--pg",pg);pageColor(pg);const nm=st.on.name&&st.v.name;document.title=(nm?nm+" | ":"")+"LazyCard";$("#vb").hidden=!fromSetup;revealView()}
 function revealView(){const els=[...$("#vcard").querySelectorAll(".sx")];if(!("IntersectionObserver" in window)){els.forEach(e=>e.classList.add("on"));return}const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add("on");io.unobserve(x.target)}}),{threshold:.12});els.forEach(e=>io.observe(e))}
 document.addEventListener("click",e=>{const i=e.target.closest("#vcard [data-lb]");if(i){$("#lbi").src=i.src;$("#lb").hidden=false}else if(e.target.closest("#lb"))$("#lb").hidden=true});
 function badCard(){$("#vcard").dataset.t="clean";$("#vcard").innerHTML='<h3 style="margin:auto 0 6px;text-align:center">This page was not found</h3><p class="role" style="text-align:center">Check the link, or make your own LazyCard.</p><a class="cta" style="margin:20px 0 auto;text-decoration:none" href="/#get">Get your LazyCard</a>'}
@@ -54,8 +56,8 @@ function openShare(){const u=pageUrl();$("#qrbox").innerHTML=qrSvg(u,4);$("#qurl
 $("#qx").onclick=()=>$("#qrm").hidden=true;$("#qrm").addEventListener("click",e=>{if(e.target.id==="qrm")e.target.hidden=true});
 $("#qcp").onclick=()=>copyText($("#qrm").dataset.u,"Link copied");
 $("#qsh").onclick=()=>{const u=$("#qrm").dataset.u;if(navigator.share)navigator.share({title:"My LazyCard",url:u}).catch(()=>{});else copyText(u,"Link copied")};
-document.addEventListener("click",e=>{const a=e.target.closest("#vcard [data-act]");if(a){if(a.dataset.act==="save"&&VS)saveVcf(VS);if(a.dataset.act==="share")openShare();return}const c=e.target.closest("[data-copy]");if(c)copyText(c.dataset.copy,"Copied")});
-function route(){const c=cur(),v=c==="vh"||c==="vs";document.body.classList.toggle("vm",v);document.body.classList.toggle("sv",c==="setup");$("#view").hidden=!v;$("#home").hidden=c!=="home";$("#setup").hidden=c!=="setup";$("#pv").classList.remove("open");
+document.addEventListener("click",e=>{const a=e.target.closest("#vcard [data-act]");if(a){if(a.dataset.act==="save"&&VS)saveVcf(VS);if(a.dataset.act==="share")openShare();return}const w=e.target.closest("#vcard .pw");if(w){window.open(baseUrl()+"/#get","_blank");return}const c=e.target.closest("[data-copy]");if(c)copyText(c.dataset.copy,"Copied")});
+function route(){const c=cur(),v=c==="vh"||c==="vs";document.body.classList.toggle("vm",v);document.body.classList.toggle("sv",c==="setup");if(!v)pageColor("");$("#view").hidden=!v;$("#home").hidden=c!=="home";$("#setup").hidden=c!=="setup";$("#pv").classList.remove("open");
  if(c==="vh"){showHash(location.hash.slice(2));scrollTo(0,0);was=null;return}
  if(c==="vs")return;
  document.title="LazyCard - Your business card, minus the paper";fromSetup=false;

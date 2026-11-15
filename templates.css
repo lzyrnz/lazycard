@@ -252,3 +252,13 @@
 .card[data-t=ticket] .nt{margin-top:6px}
 .card[data-t=corp] .hd{min-height:150px;padding-bottom:72px}
 .card[data-t=mono] .ph.im{background-position:center;background-repeat:no-repeat;background-color:#fff}
+
+/* customer page on phones: the template fills the whole screen */
+.vcard .pw{cursor:pointer}.vcard .pw:hover{opacity:.9;text-decoration:underline}
+@media(max-width:700px){
+ .vw{padding:0;gap:0;justify-content:flex-start;align-items:stretch;min-height:100dvh;background:var(--pg,#0b0a1a)}
+ .vw .vcard{max-width:none;width:100%;min-height:100dvh;border-radius:0;box-shadow:none;animation:none}
+ .vw .vcard[data-t=mono]{border:0}
+ .vw .vcard[data-t=exec]::before{inset:10px;border-radius:20px}
+ .vm2{display:none}
+}
