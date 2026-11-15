@@ -1,18 +1,21 @@
 /* LazyCard setup wizard (this is the page your Lazy cards open first) */
 let S=mk(ON0,true),step=0,LINK="",fromSetup=false;
-try{const x=localStorage.getItem("lc7");if(x){const p=JSON.parse(x);S={...S,...p,v:{...S.v,...p.v},on:{...S.on,...p.on},x:{...S.x,...(p.x||{})},img:{...S.img,...(p.img||{})}}}}catch(e){}
+try{const x=localStorage.getItem("lc7");if(x){const p=JSON.parse(x);S={...S,...p,v:{...S.v,...p.v},on:{...S.on,...p.on},x:{...S.x,...(p.x||{})},img:{...S.img,...(p.img||{})},lbl:{...(p.lbl||{})}}}}catch(e){}
 const sv=()=>{try{const c={...S};delete c.pin;localStorage.setItem("lc7",JSON.stringify(c))}catch(e){}};
 let pq=0;const paintSoon=()=>{cancelAnimationFrame(pq);pq=requestAnimationFrame(()=>paint($("#card"),demo(S),S.t))};
 const ST=["Style","About you","Links","Sections","Publish"];
 const TT=[["Choose your style","Pick the kind of page, the design, and your color."],["Tell us about you","Add your basics and images. Switch off anything you do not need."],["Add your links","Contact details and social media. Only add what you want people to use."],["Make it yours","Switch on the sections you want. Every one is optional."],["Publish your page","Choose your link, then save it on your Lazy card."]];
 const TI={name:"Aa",role:"Jt",co:"Co",tag:"Tg"};
 const PRE={Corporate:["name","role","co","phone","email","web","loc","li"],Creator:["name","role","tag","ig","tt","yt","book"],Freelancer:["name","role","tag","email","wa","web","ig","book"],"IT pro":["name","role","co","email","gh","li","web"],Minimal:["name","email"]};
+const LBLPH={wa:"e.g. Message me",web:"e.g. My portfolio",loc:"e.g. Lipa City, Batangas",book:"e.g. Book a call",ig:"e.g. Mika Designs",fb:"e.g. Renze Alano",li:"e.g. Renze Alano",tt:"e.g. Mika Designs",x:"e.g. Mika Designs",yt:"e.g. My channel",gh:"e.g. My code"};
 const LB=()=>S.k==="biz"?{name:"Business or person name",role:"What you do",co:"Business name"}:{};
 const dom=()=>{try{return new URL(baseUrl()).host}catch(e){return"lazycard.netlify.app"}};
 function qrSvg(url,cell=3){try{const q=qrcode(0,"L");q.addData(url);q.make();return q.createSvgTag({cellSize:cell,margin:2,scalable:true})}catch(e){return""}}
 function setPath(o,path,val){const p=path.split("."),n=k=>/^\d+$/.test(k)?+k:k;let c=o;for(let i=0;i<p.length-1;i++)c=c[n(p[i])];c[n(p[p.length-1])]=val}
-function row(k){const f=F.find(x=>x[0]===k),on=S.on[k],lb=LB()[k]||f[1];return `<div class="blk ${on?"":"off"}">${ib(TI[k]||LK[k][0])}<label>${esc(lb)}<input data-v="${k}" value="${esc(S.v[k])}" placeholder="${esc(f[2])}">${LK[k]?`<a class="tlk" data-tl="${k}" href="${esc(LK[k][1](String(S.v[k]||"")))}" target="_blank" rel="noopener">Test link</a>`:""}</label><label class="tg2"><input type="checkbox" data-on="${k}" ${on?"checked":""} aria-label="Show ${esc(lb)}"><span></span></label></div>`}
+function row(k){const f=F.find(x=>x[0]===k),on=S.on[k],lb=LB()[k]||f[1];return `<div class="blk ${on?"":"off"}">${ib(TI[k]||LK[k][0])}<div class="fld"><label>${esc(lb)}<input data-v="${k}" value="${esc(S.v[k])}" placeholder="${esc(k==="loc"?"Address or map link":f[2])}"></label>${LBL.has(k)?`<label class="l2">Show as (optional)<input data-lbl="${k}" value="${esc((S.lbl||{})[k]||"")}" placeholder="${esc(LBLPH[k]||"")}"></label>`:""}${LK[k]?`<a class="tlk" data-tl="${k}" href="${esc(LK[k][1](String(S.v[k]||"")))}" target="_blank" rel="noopener">Test link</a>`:""}</div><label class="tg2"><input type="checkbox" data-on="${k}" ${on?"checked":""} aria-label="Show ${esc(lb)}"><span></span></label></div>`}
 function upl(key,label,hint){const im=S.img[key],on=S.on[key];return `<div class="blk upl ${on?"":"off"}"><div class="th ${key==="av"&&S.k==="biz"?"lg2":""}" ${im?`style="background-image:url('${im}')"`:""}>${im?"":"+"}</div><label>${label}<span class="fh">${hint}</span><input type="file" accept="image/*" data-up="${key}"></label><label class="tg2"><input type="checkbox" data-on="${key}" ${on?"checked":""} aria-label="Show ${label}"><span></span></label>${im?`<button class="rm" data-rm="${key}" aria-label="Remove image">✕</button>`:""}</div>`}
+const POSL=[["t","Top"],["c","Center"],["b","Bottom"]];
+const seg=(key,label)=>`<div class="seg"><span>${label}</span>${POSL.map(([v,l])=>`<button data-pos="${key}.${v}" aria-pressed="${(S[key]||(key==="avp"?"t":"c"))===v}">${l}</button>`).join("")}</div>`;
 function secBody(key,tp){
  const x=S.x;
  if(tp==="text")return key==="note"?`<input data-x="${key}" value="${esc(x[key]||"")}" placeholder="${esc(XS.note)}">`:`<textarea data-x="${key}" rows="4" placeholder="${esc(XS.about)}">${esc(x[key]||"")}</textarea>`;
@@ -32,8 +35,8 @@ function panel(){
  $("#steps").innerHTML=ST.map((n,i)=>`<button data-i="${i}" class="${i<step?"done":""}" ${i===step?'aria-current="step"':""}><span class="n">${i<step?"✓":i+1}</span><span class="tx">${n}</span></button>`).join("");
  let h=`<span class="stp">Step ${step+1} of ${ST.length}</span><h2>${T[0]}</h2><p class="sub">${T[1]}</p>`;
  if(step===0)h+=`${editBox()}<h4 class="gh">WHAT ARE YOU MAKING?</h4><div class="kinds"><button data-k="call" aria-pressed="${S.k==="call"}"><i class="kd k1"></i><b>Calling card</b><span>Your photo, story, and skills. Made for people.</span></button><button data-k="biz" aria-pressed="${S.k==="biz"}"><i class="kd k2"></i><b>Business card</b><span>Your logo, services, and hours. Made for brands.</span></button></div><h4 class="gh">DESIGN</h4><div class="tp">${TP.map(([k,n])=>`<button data-t="${k}" aria-pressed="${S.t===k}">${thumb(k,.4)}<div style="margin-top:8px">${n}</div></button>`).join("")}</div><h4 class="gh">COLOR</h4><div class="sw">${CO.map(c=>`<button data-c="${c}" style="background:${c}" aria-label="Color ${c}" aria-pressed="${S.c===c}"></button>`).join("")}</div>`;
- if(step===1)h+=`${["name","role","co","tag"].map(row).join("")}<h4 class="gh">${S.k==="biz"?"YOUR LOGO":"YOUR PHOTO"}</h4>${upl("av",S.k==="biz"?"Logo":"Photo",S.k==="biz"?"Tap to choose your logo":"Tap to choose your photo")}<h4 class="gh">COVER IMAGE</h4>${upl("cv","Cover image","A wide picture across the top")}${API.ok?"":`<p class="fh" style="margin-top:12px">Images show in this preview. They are saved with your page once the site runs on Netlify.</p>`}`;
- if(step===2)h+=`<h4 class="gh" style="margin-top:0">QUICK START</h4><div class="pre">${Object.keys(PRE).map(k=>`<button data-pre="${k}">${k}</button>`).join("")}</div><h4 class="gh">CONTACT</h4>${["phone","email","wa","web","loc","book"].map(row).join("")}<h4 class="gh">SOCIAL</h4>${["ig","fb","li","tt","x","yt","gh"].map(row).join("")}`;
+ if(step===1)h+=`${["name","role","co","tag"].map(row).join("")}<h4 class="gh">${S.k==="biz"?"YOUR LOGO":"YOUR PHOTO"}</h4>${upl("av",S.k==="biz"?"Logo":"Photo",S.k==="biz"?"Tap to choose your logo":"Tap to choose your photo")}${S.k!=="biz"&&S.img.av?seg("avp","Focus on"):""}<h4 class="gh">COVER IMAGE</h4>${upl("cv","Cover image","A wide picture across the top")}${S.img.cv?seg("cvp","Focus on"):""}${API.ok?"":`<p class="fh" style="margin-top:12px">Images show in this preview. They are saved with your page once the site runs on Netlify.</p>`}`;
+ if(step===2)h+=`<h4 class="gh" style="margin-top:0">QUICK START</h4><div class="pre">${Object.keys(PRE).map(k=>`<button data-pre="${k}">${k}</button>`).join("")}</div><p class="tip"><b>Tip:</b> use <b>Show as</b> to display a name instead of a link. For example, paste your Facebook link, then type "Renze Alano" in Show as. People see your name and tap to open the link.</p><h4 class="gh">CONTACT</h4>${["phone","email","wa","web","loc","book"].map(row).join("")}<h4 class="gh">SOCIAL</h4>${["ig","fb","li","tt","x","yt","gh"].map(row).join("")}`;
  if(step===3)h+=SECS.map(acc).join("");
  if(step===4)h+=pubHTML();
  h+=`<div class="nav2"><button class="btn g" id="bk" ${step?"":"disabled"}>Back</button><button class="btn g pvb" id="pvb">Preview</button><button class="btn" id="nx">${step===4?"Done":"Next"}</button></div>`;
@@ -76,6 +79,7 @@ function ensureItems(){Object.keys(LS).forEach(k=>{if(S.on[k]&&!S.x[k].length)S.
 const P=$("#panel");
 P.addEventListener("input",e=>{const t=e.target;
  if(t.dataset.v){const k=t.dataset.v;S.v[k]=t.value;const a=P.querySelector(`[data-tl="${k}"]`);if(a&&LK[k])a.href=LK[k][1](t.value||"");if(t.value.trim()&&!S.on[k]){S.on[k]=true;const c=P.querySelector(`[data-on="${k}"]`);if(c){c.checked=true;c.closest(".blk").classList.remove("off")}}}
+ else if(t.dataset.lbl){S.lbl=S.lbl||{};S.lbl[t.dataset.lbl]=t.value}
  else if(t.dataset.x){setPath(S.x,t.dataset.x,t.value)}
  else if(t.id==="sl"){chk();sv();return}else return;
  sv();paintSoon()});
@@ -92,6 +96,7 @@ P.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;c
  else if(d.delg){S.img.gal.splice(+d.delg,1);if(!S.img.gal.length)S.on.gal=false}
  else if(d.rm){S.img[d.rm]="";S.on[d.rm]=false}
  else if(d.badge){S.x.badge=d.badge;S.on.badge=true}
+ else if(d.pos){const[k,v]=d.pos.split(".");S[k]=v}
  else if(b.id==="cp"){copyText(liveUrl(),"Link copied");return}
  else if(b.id==="nfc"){nfcWrite();return}
  else if(b.id==="pb"){publish();return}

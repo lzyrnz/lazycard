@@ -262,3 +262,15 @@
  .vw .vcard[data-t=exec]::before{inset:10px;border-radius:20px}
  .vm2{display:none}
 }
+
+/* covers fit edge to edge in every design */
+.card{--px:22px;--pt:26px}
+.card[data-t=bento]{--px:16px;--pt:16px}
+.card .cover{margin:calc(-1*var(--pt)) calc(-1*var(--px)) 18px;width:calc(100% + 2*var(--px));height:auto;aspect-ratio:16/7;background-size:cover;background-repeat:no-repeat;flex:none;-webkit-mask-image:none;mask-image:none}
+.card[data-t=bento] .cover{border-radius:30px 30px 0 0}
+.card[data-t=term] .cover{margin-top:-10px;margin-bottom:16px}
+.card[data-t=mono] .cover{border-bottom:3px solid #0b0b0b}
+.card[data-t=sun] .cover{margin-bottom:14px}
+.card[data-t=ticket] .cover{margin-bottom:0}
+.card[data-t=exec] .cover{margin-top:calc(-1*var(--pt))}
+.card .ph.im{background-repeat:no-repeat}

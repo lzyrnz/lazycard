@@ -333,3 +333,14 @@ body.sv .snav,body.sv .mcta{display:none}
 .sc{width:100%;max-width:100%;position:relative}.tp button{min-width:0;max-width:100%}
 .tp .sc .card{position:relative;left:50%;margin-left:calc(340px*var(--s)/-2)}
 @media(max-width:700px){.tp{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.fld{min-width:0}.l2{margin-top:8px}.l2 input,.blk input[data-lbl]{display:block;width:100%;margin:2px 0 0;padding:4px 0;border:0;border-bottom:1.5px solid transparent;border-radius:0;background:transparent;color:var(--ink);font:500 15px 'Hanken Grotesk',system-ui,sans-serif}
+.blk input[data-lbl]:focus{outline:0;border-color:var(--br)}
+.blk .fh{margin-top:4px}
+.seg{display:flex;align-items:center;gap:8px;margin:-2px 0 14px;flex-wrap:wrap}.seg span{font-size:12.5px;color:var(--mu);margin-right:4px}
+.seg button{padding:7px 14px;border-radius:99px;border:1.5px solid var(--ln);background:var(--bg);color:var(--ink);font:600 13px 'Hanken Grotesk',system-ui,sans-serif;cursor:pointer}.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+.blk input[data-v]{border-bottom-color:var(--ln)}
+.l2 input,.blk .l2 input[data-lbl]{margin-top:4px;padding:8px 11px;border:1.5px solid var(--ln);border-radius:10px;background:var(--pn);font-size:15px}
+.blk .l2 input[data-lbl]:focus{border-color:var(--br)}
+.tip{margin:0 0 18px;padding:12px 14px;border-radius:14px;background:color-mix(in srgb,var(--br) 8%,var(--bg));border:1.5px solid color-mix(in srgb,var(--br) 25%,var(--ln));font-size:13.5px;color:var(--ink)}

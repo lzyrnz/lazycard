@@ -8,7 +8,7 @@ const u=b=>v=>/^https?:\/\//.test(v)?v:b?b+v.replace(/^@/,""):"https://"+v;
 const F=[["name","Full name","Alex Morgan","id"],["role","Job title","Operations Director","id"],["co","Company","Northwind Group","id"],["tag","Tagline","Making complex work feel simple.","id"],
 ["phone","Phone","+00 000 000 0000","c"],["email","Email","alex@northwind.com","c"],["wa","WhatsApp","+00 000 000 0000","c"],["web","Website","northwind.com","c"],["loc","Location","Your City","c"],["book","Booking link","cal.com/alex","c"],
 ["ig","Instagram","@alexmorgan","s"],["fb","Facebook","alex.morgan","s"],["li","LinkedIn","alex-morgan","s"],["tt","TikTok","@alexmorgan","s"],["x","X","@alexmorgan","s"],["yt","YouTube","@alexmorgan","s"],["gh","GitHub","alexmorgan","s"]];
-const LK={phone:["p",v=>"tel:"+v.replace(/[^\d+]/g,"")],email:["e",v=>"mailto:"+v],wa:["WA",v=>"https://wa.me/"+v.replace(/\D/g,"")],web:["w",u("")],loc:["l",v=>"https://maps.google.com/?q="+encodeURIComponent(v)],book:["c",u("")],ig:["ig",u("https://instagram.com/")],fb:["f",u("https://facebook.com/")],li:["in",u("https://linkedin.com/in/")],tt:["TT",u("https://tiktok.com/@")],x:["X",u("https://x.com/")],yt:["yt",u("https://youtube.com/")],gh:["GH",u("https://github.com/")]};
+const LK={phone:["p",v=>"tel:"+v.replace(/[^\d+]/g,"")],email:["e",v=>"mailto:"+v],wa:["WA",v=>"https://wa.me/"+v.replace(/\D/g,"")],web:["w",u("")],loc:["l",v=>/^https?:\/\//i.test(v)?v:"https://maps.google.com/?q="+encodeURIComponent(v)],book:["c",u("")],ig:["ig",u("https://instagram.com/")],fb:["f",u("https://facebook.com/")],li:["in",u("https://linkedin.com/in/")],tt:["TT",u("https://tiktok.com/@")],x:["X",u("https://x.com/")],yt:["yt",u("https://youtube.com/")],gh:["GH",u("https://github.com/")]};
 const IC={p:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/>',e:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',w:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',l:'<path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',c:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',ig:'<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".7"/>',yt:'<rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z"/>'};
 const ib=k=>IC[k]?`<em class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg></em>`:`<em class="ib">${k}</em>`;
 
@@ -25,7 +25,7 @@ links:[{l:"Book a call",u:"cal.com/alex"},{l:"View my portfolio",u:"northwind.co
 pay:[{l:"GCash",v:"0900 000 0000"}]};
 const ALLK=[...F.map(f=>f[0]),...SECS.map(x=>x[0]),"av","cv"];
 const emptyX=()=>({about:"",skills:"",lang:"",cert:"",note:"",badge:"",exp:[],edu:[],svc:[],tst:[],hrs:[],links:[],pay:[]});
-const mk=(on=[],blank)=>({t:"exec",c:CO[0],k:"call",v:Object.fromEntries(F.map(f=>[f[0],blank?"":f[2]])),on:Object.fromEntries(ALLK.map(k=>[k,on.includes(k)])),img:{av:"",cv:"",gal:[]},x:blank?emptyX():JSON.parse(JSON.stringify(XS)),slug:"",published:false,pubSlug:""});
+const mk=(on=[],blank)=>({t:"exec",c:CO[0],k:"call",v:Object.fromEntries(F.map(f=>[f[0],blank?"":f[2]])),on:Object.fromEntries(ALLK.map(k=>[k,on.includes(k)])),img:{av:"",cv:"",gal:[]},x:blank?emptyX():JSON.parse(JSON.stringify(XS)),slug:"",published:false,pubSlug:"",lbl:{},cvp:"c",avp:"t"});
 /* preview only: empty switched-on items show sample text until the customer types their own */
 function demo(s){const c={...s,v:{...s.v},x:{...s.x}};F.forEach(f=>{if(c.on[f[0]]&&!String(c.v[f[0]]||"").trim())c.v[f[0]]=f[2]});SECS.forEach(([k,,,tp])=>{if(!c.on[k]||k==="gal")return;const v=c.x[k];if(tp==="list"){if(!T(v).length)c.x[k]=JSON.parse(JSON.stringify(XS[k]))}else if(!v||!String(v).trim())c.x[k]=XS[k]});return c}
 const ON0=["name","role","co","tag","phone","email","ig","li","loc","web","av"];
@@ -35,16 +35,20 @@ const safeImg=v=>/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+\/=]+$/.te
 const T=a=>(Array.isArray(a)?a:[]).filter(i=>i&&Object.values(i).some(v=>String(v).trim()));
 const chipsOf=v=>String(v||"").split(",").map(z=>z.trim()).filter(Boolean);
 const nl2=v=>esc(v).replace(/\n/g,"<br>");
+const LBL=new Set(["wa","web","loc","book","ig","fb","li","tt","x","yt","gh"]);
+const POS={t:"12%",c:"50%",b:"88%"};
+function pretty(k,v){if(!/^https?:\/\//i.test(v)&&!/\.[a-z]{2,}\//i.test(v))return v;let t=v.replace(/^https?:\/\/(www\.)?/i,"").replace(/[?#].*$/,"").replace(/\/+$/,"");const seg=t.split("/").filter(Boolean);if(["ig","tt","x","yt","gh","fb","li"].includes(k)&&seg.length>1){const h=seg[seg.length-1].replace(/^@/,"");return(["ig","tt","x","yt","gh"].includes(k)?"@":"")+h}return t}
 function card(s,t){
  const g=k=>s.on[k]&&String(s.v[k]||"").trim()?String(s.v[k]).trim():"";
  const x=s.x||{},on=k=>s.on[k],im=s.img||{};
  const co=g("co"),nm=g("name"),av=on("av")?safeImg(im.av):"",cv=on("cv")?safeImg(im.cv):"";
  const ban=co?`<div class="ban"><span class="lg">${esc(co[0].toUpperCase())}</span>${esc(co)}</div>`:"";
- const ph=on("av")?`<div class="ph${av?" im":""}" ${av?`style="background-image:url('${av}')"`:""}>${av?"":esc((nm||co||"A")[0].toUpperCase())}</div>`:"";
- const cover=cv&&t!=="corp"?`<div class="cover" style="background-image:url('${cv}')"></div>`:"";
+ const ph=on("av")?`<div class="ph${av?" im":""}" ${av?`style="background-image:url('${av}');background-position:center ${POS[s.avp||"t"]}"`:""}>${av?"":esc((nm||co||"A")[0].toUpperCase())}</div>`:"";
+ const cover=cv&&t!=="corp"?`<div class="cover" style="background-image:url('${cv}');background-position:center ${POS[s.cvp||"c"]}"></div>`:"";
  const note=on("note")&&x.note&&x.note.trim()?`<div class="nt">${esc(x.note.trim())}</div>`:"";
  const badge=on("badge")&&x.badge&&x.badge.trim()?`<div class="bd2">${esc(x.badge.trim())}</div>`:"";
- let n=0,sn=0;const li=F.filter(f=>f[3]!=="id"&&g(f[0])).map(f=>{const[i,fn]=LK[f[0]];return `<li style="--i:${n++}"><a href="${esc(fn(g(f[0])))}" target="_blank" rel="noopener">${ib(i)}<span>${esc(g(f[0]))}</span></a></li>`}).join("")
+ let n=0,sn=0;const lab=k=>{const l=String((s.lbl&&s.lbl[k])||"").trim();return l||(LBL.has(k)?pretty(k,g(k)):g(k))};
+ const li=F.filter(f=>f[3]!=="id"&&g(f[0])).map(f=>{const[i,fn]=LK[f[0]];return `<li style="--i:${n++}"><a href="${esc(fn(g(f[0])))}" target="_blank" rel="noopener">${ib(i)}<span>${esc(lab(f[0]))}</span></a></li>`}).join("")
   +(on("links")?T(x.links).filter(i=>i.l&&i.u).map(i=>`<li style="--i:${n++}"><a href="${esc(u("")(String(i.u).trim()))}" target="_blank" rel="noopener">${ib("↗")}<span>${esc(i.l)}</span></a></li>`).join(""):"");
  const SX=(h,b)=>`<section class="sx" style="--i:${sn++}"><h4>${h}</h4>${b}</section>`;
  const tl=a=>`<ol class="tl">${a.map((i,k)=>`<li style="--j:${k}"><b>${esc(i.t)}</b>${i.o?`<span class="o">${esc(i.o)}</span>`:""}${i.p?`<em>${esc(i.p)}</em>`:""}${i.d?`<p>${esc(i.d)}</p>`:""}</li>`).join("")}</ol>`;
@@ -63,7 +67,7 @@ function card(s,t){
  if(on("lang")&&chipsOf(x.lang).length)sx+=SX("Languages",chips(x.lang));
  if(on("cert")&&chipsOf(x.cert).length)sx+=SX("Certifications",chips(x.cert));
  const id=`${nm?`<h3 style="--n:${[...nm].length}">${esc(nm)}</h3>`:""}${g("role")?`<p class="role">${esc(g("role"))}</p>`:""}${badge}${g("tag")?`<p class="tg">${esc(g("tag"))}</p>`:""}<ul>${li}</ul><div class="ctas"><span class="cta" data-act="save">Save contact</span><span class="cta gh" data-act="share">Share</span></div>${sx}<p class="pw">Powered by LazyCard</p>`;
- if(t==="corp")return `<div class="hd" ${cv?`style="background-image:linear-gradient(120deg,rgba(10,8,30,.55),rgba(10,8,30,.15)),url('${cv}');background-size:cover;background-position:center"`:""}>${ban}${note}</div><div class="bd">${ph}${id}</div>`;
+ if(t==="corp")return `<div class="hd" ${cv?`style="background-image:linear-gradient(120deg,rgba(10,8,30,.55),rgba(10,8,30,.15)),url('${cv}');background-size:cover;background-position:center ${POS[s.cvp||"c"]}"`:""}>${ban}${note}</div><div class="bd">${ph}${id}</div>`;
  return cover+note+ban+ph+id;
 }
 const onColor=c=>{const v=parseInt(String(c).slice(1),16),r=v>>16&255,g=v>>8&255,b=v&255;return(.299*r+.587*g+.114*b)>165?"#14121f":"#ffffff"};
@@ -85,7 +89,8 @@ const AL="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-";
 function pack(S,withImg){
  const o={};F.forEach(f=>{const k=f[0],v=String(S.v[k]||"").trim();if(S.on[k]&&v)o[k]=v});
  const x={};SECS.forEach(([k,,,tp])=>{if(!S.on[k]||k==="gal")return;const v=S.x[k];if(tp==="list"){const a=T(v);if(a.length)x[k]=a}else if(v&&String(v).trim())x[k]=String(v).trim()});
- const j={v:2,t:Math.max(0,TP.findIndex(z=>z[0]===S.t)),c:S.c,k:S.k,a:S.on.av?1:0,o,x};
+ const lb={};LBL.forEach(k=>{const l=String((S.lbl||{})[k]||"").trim();if(S.on[k]&&o[k]&&l)lb[k]=l});
+ const j={v:2,t:Math.max(0,TP.findIndex(z=>z[0]===S.t)),c:S.c,k:S.k,a:S.on.av?1:0,o,x};if(Object.keys(lb).length)j.l=lb;if(S.cvp&&S.cvp!=="c")j.cp=S.cvp;if(S.avp&&S.avp!=="t")j.ap=S.avp;
  if(withImg){const i={};if(S.on.av&&S.img.av)i.av=S.img.av;if(S.on.cv&&S.img.cv)i.cv=S.img.cv;if(S.on.gal&&S.img.gal.length)i.gal=S.img.gal;if(Object.keys(i).length)j.i=i}
  return j}
 function unpack(j){
@@ -93,7 +98,9 @@ function unpack(j){
  const im=j.i||{};st.on.av=!!(j.a||j.p||im.av);if(im.av)st.img.av=safeImg(im.av);
  if(im.cv){st.img.cv=safeImg(im.cv);st.on.cv=!!st.img.cv}
  if(Array.isArray(im.gal)){st.img.gal=im.gal.map(safeImg).filter(Boolean).slice(0,6);st.on.gal=st.img.gal.length>0}
- for(const k in (j.o||{})){if(F.some(f=>f[0]===k)){st.v[k]=String(j.o[k]).slice(0,200);st.on[k]=true}}
+ for(const k in (j.o||{})){if(F.some(f=>f[0]===k)){st.v[k]=String(j.o[k]).slice(0,300);st.on[k]=true}}
+ for(const k in (j.l||{})){if(LBL.has(k))st.lbl[k]=String(j.l[k]).slice(0,80)}
+ if(["t","c","b"].includes(j.cp))st.cvp=j.cp;if(["t","c","b"].includes(j.ap))st.avp=j.ap;
  for(const [k,,,tp] of SECS){const v=(j.x||{})[k];if(v==null||k==="gal")continue;if(tp==="list"&&LS[k]){st.x[k]=T(v).slice(0,20).map(i=>Object.fromEntries(LS[k].map(([f])=>[f,String(i[f]||"").slice(0,600)])));st.on[k]=true}else if(tp!=="list"){st.x[k]=String(v).slice(0,2000);st.on[k]=true}}
  return st}
 async function enc(obj){const raw=new TextEncoder().encode(JSON.stringify(obj));let f=0,b=raw;if(window.CompressionStream){try{b=new Uint8Array(await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream("deflate-raw"))).arrayBuffer());f=1}catch(e){b=raw;f=0}}let n=1n;for(const x of [f,...b])n=n*256n+BigInt(x);let r="";while(n>0n){r=AL[Number(n%63n)]+r;n/=63n}return r}
