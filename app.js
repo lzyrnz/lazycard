@@ -47,7 +47,8 @@ function cur(){const h=location.hash;if(/^#k[0-9A-Za-z-]{16,}$/.test(h))return"v
 const PG={exec:"#0a152b",corp:"#eef0f6",aura:"#0a0820",mono:"#eceef3",term:"#080d1a",ticket:"#ffffff",bento:"#e9e5ff",sun:"#25134f"};
 function pageColor(c){const h=document.documentElement;h.style.backgroundColor=c||"";document.body.style.backgroundColor=c||"";let m=document.querySelector("meta[name=theme-color]");if(!m){m=document.createElement("meta");m.name="theme-color";document.head.appendChild(m)}m.content=c||"#17132E"}
 function paintView(st){VS=st;paint($("#vcard"),st,st.t);$("#view").style.setProperty("--a",st.c);const pg=st.t==="studio"?st.c:PG[st.t]||"#0b0a1a";$("#view").style.setProperty("--pg",pg);pageColor(pg);const nm=st.on.name&&st.v.name;document.title=(nm?nm+" | ":"")+"LazyCard";$("#vb").hidden=!fromSetup;revealView()}
-function revealView(){const els=[...$("#vcard").querySelectorAll(".sx")];if(!("IntersectionObserver" in window)){els.forEach(e=>e.classList.add("on"));return}const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add("on");io.unobserve(x.target)}}),{threshold:.12});els.forEach(e=>io.observe(e))}
+function revealView(){const vc=$("#vcard"),tabs=[...vc.querySelectorAll(".tn button")];if(tabs.length&&"IntersectionObserver" in window){tabs[0].classList.add("on");const sp=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){const k=x.target.dataset.sx;tabs.forEach(b=>b.classList.toggle("on",b.dataset.go===k))}}),{rootMargin:"-38% 0px -57% 0px"});vc.querySelectorAll("[data-sx]").forEach(e=>sp.observe(e))}
+ const els=[...vc.querySelectorAll(".sx")];if(!("IntersectionObserver" in window)){els.forEach(e=>e.classList.add("on"));return}const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add("on");io.unobserve(x.target)}}),{threshold:.12});els.forEach(e=>io.observe(e))}
 let LBI=0,LBL2=[];
 function lbShow(i){LBL2=[...$("#vcard").querySelectorAll(".gl img")];if(!LBL2.length)return;LBI=(i+LBL2.length)%LBL2.length;$("#lbi").src=LBL2[LBI].src;$("#lbc").textContent=(LBI+1)+" / "+LBL2.length;$("#lb").hidden=false;$("#lb").classList.toggle("one",LBL2.length<2)}
 document.addEventListener("click",e=>{const i=e.target.closest("#vcard [data-lb]");if(i){lbShow(+i.dataset.i||0);return}if(e.target.closest("#lbp")){lbShow(LBI-1);return}if(e.target.closest("#lbn")){lbShow(LBI+1);return}if(e.target.closest("#lbx")||e.target.id==="lb"||e.target.id==="lbi")$("#lb").hidden=true});
@@ -61,7 +62,7 @@ $("#qx").onclick=()=>$("#qrm").hidden=true;$("#qrm").addEventListener("click",e=
 $("#qcp").onclick=()=>copyText($("#qrm").dataset.u,"Link copied");
 $("#qsh").onclick=()=>{const u=$("#qrm").dataset.u;if(navigator.share)navigator.share({title:"My LazyCard",url:u}).catch(()=>{});else copyText(u,"Link copied")};
 document.addEventListener("click",e=>{const a=e.target.closest("#vcard [data-act]");if(a){if(a.dataset.act==="save"&&VS)saveVcf(VS);if(a.dataset.act==="share")openShare();return}const w=e.target.closest("#vcard .pw");if(w){window.open(baseUrl()+"/#get","_blank");return}const c=e.target.closest("[data-copy]");if(c)copyText(c.dataset.copy,"Copied")});
-function route(){const c=cur(),v=c==="vh"||c==="vs";document.body.classList.toggle("vm",v);document.body.classList.toggle("sv",c==="setup");if(!v)pageColor("");$("#view").hidden=!v;$("#home").hidden=c!=="home";$("#setup").hidden=c!=="setup";$("#pv").classList.remove("open");
+function route(){const c=cur(),v=c==="vh"||c==="vs";document.body.classList.toggle("vm",v);document.body.classList.toggle("sv",c==="setup");if(!v)pageColor("");$("#view").hidden=!v;$("#home").hidden=c!=="home";$("#setup").hidden=c!=="setup";closePV();
  if(c==="vh"){showHash(location.hash.slice(2));scrollTo(0,0);was=null;return}
  if(c==="vs")return;
  document.title="LazyCard - Your business card, minus the paper";fromSetup=false;
@@ -90,3 +91,12 @@ rd($("#af"),u=>{AF=u;cardImages(AF||CFG.cardFront,AB||CFG.cardBack)});rd($("#ab"
 $("#ax").onclick=()=>{AF=AB="";cardImages(CFG.cardFront,CFG.cardBack)};
 function adm(){const on=location.hash==="#admin";$("#adm").hidden=!on;if(on)$("#c3dw").scrollIntoView({block:"center"})}adm();addEventListener("hashchange",adm);
 
+
+/* section menu (works in the editor preview and on customer pages) */
+document.addEventListener("click",e=>{const g=e.target.closest(".card [data-go]");if(!g)return;const c=g.closest(".card"),t=c.querySelector('[data-sx="'+g.dataset.go+'"]');if(t)t.scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"})});
+/* 3D tilt on desktop */
+(function(){if(reduce||!matchMedia("(hover:hover) and (pointer:fine)").matches)return;
+ document.addEventListener("pointermove",e=>{const t=e.target.closest&&e.target.closest("[data-tilt]");if(!t)return;const r=t.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5,m=t.matches(".ph")?12:6;t.style.setProperty("--rx",(-y*m).toFixed(2)+"deg");t.style.setProperty("--ry",(x*m).toFixed(2)+"deg")},{passive:true});
+ document.addEventListener("pointerout",e=>{const t=e.target.closest&&e.target.closest("[data-tilt]");if(t&&!t.contains(e.relatedTarget)){t.style.removeProperty("--rx");t.style.removeProperty("--ry")}})})();
+addEventListener("resize",()=>{if(innerWidth>1000)closePV()});
+addEventListener("keydown",e=>{if(e.key==="Escape")closePV()});

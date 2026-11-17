@@ -8,12 +8,15 @@ const TT=[["Pick your style","Choose the kind of page, the design, and your colo
 const SHORT={phone:"Phone",email:"Email",wa:"WhatsApp",web:"Website",loc:"Location",book:"Booking",ig:"Instagram",fb:"Facebook",li:"LinkedIn",tt:"TikTok",x:"X",yt:"YouTube",gh:"GitHub"};
 const CONTACT=["phone","email","wa","web","loc","book"],SOCIAL=["ig","fb","li","tt","x","yt","gh"];
 const REC={call:["about","exp","skills","edu"],biz:["svc","hrs","tst","gal","links"]};
-const LBLPH={wa:"e.g. Message me",web:"e.g. My portfolio",loc:"e.g. Lipa City, Batangas",book:"e.g. Book a call",ig:"e.g. Mika Designs",fb:"e.g. Renze Alano",li:"e.g. Renze Alano",tt:"e.g. Mika Designs",x:"e.g. Mika Designs",yt:"e.g. My channel",gh:"e.g. My code"};
+const LBLPH={wa:"e.g. Message me",web:"e.g. My portfolio",loc:"e.g. Lipa City, Batangas",book:"e.g. Book a call",ig:"e.g. Mika Designs",fb:"e.g. Alex Morgan",li:"e.g. Alex Morgan",tt:"e.g. Mika Designs",x:"e.g. Mika Designs",yt:"e.g. My channel",gh:"e.g. My code"};
 const LB=()=>S.k==="biz"?{name:"Business or person name",role:"What you do",co:"Business name"}:{};
 const dom=()=>{try{return new URL(baseUrl()).host}catch(e){return"lazycard.netlify.app"}};
 function qrSvg(url,cell=3){try{const q=qrcode(0,"L");q.addData(url);q.make();return q.createSvgTag({cellSize:cell,margin:2,scalable:true})}catch(e){return""}}
 function setPath(o,path,val){const p=path.split("."),n=k=>/^\d+$/.test(k)?+k:k;let c=o;for(let i=0;i<p.length-1;i++)c=c[n(p[i])];c[n(p[p.length-1])]=val}
-const introHTML=()=>`<div class="intro"><div class="ih"><span class="lm"><svg viewBox="0 0 40 28" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M18 10.5a5 5 0 0 1 0 7"/><path d="M23 7a10 10 0 0 1 0 14"/><path d="M28 3.5a15 15 0 0 1 0 21"/></g><circle cx="11" cy="14" r="2.6" fill="#fff"/></svg></span><div><b>Welcome to LazyCard</b><span>Your Lazy card is an NFC card. One tap on any phone opens a page that is all yours.</span></div></div><ol class="is"><li><b>1</b>Pick a style</li><li><b>2</b>Add your details</li><li><b>3</b>Publish and tap</li></ol><p>It takes about five minutes, and you can change everything later.</p></div>`;
+const LOGO=`<span class="lm"><svg viewBox="0 0 40 28" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M18 10.5a5 5 0 0 1 0 7"/><path d="M23 7a10 10 0 0 1 0 14"/><path d="M28 3.5a15 15 0 0 1 0 21"/></g><circle cx="11" cy="14" r="2.6" fill="#fff"/></svg></span>`;
+const introHTML=()=>`<section class="intro2"><div class="i2t"><div class="i2h">${LOGO}<b>LazyCard</b></div><h3>Your Lazy card, your page.</h3><p>Tap once on any phone and a page that is entirely yours opens: your photo, your links, your story. Build it here in about five minutes.</p></div><div class="i2s" aria-hidden="true"><div class="i2c"></div><div class="i2p"><span class="i2a"></span><span class="i2l a"></span><span class="i2l b"></span><span class="i2l c"></span></div><span class="i2r"></span><span class="i2r r2"></span></div><ol class="i2k"><li><b>Pick a style</b><span>Calling or business card, nine designs</span></li><li><b>Add your details</b><span>Photo, links and extras</span></li><li><b>Publish and tap</b><span>Save the link on your card</span></li></ol><div class="i2n"><span>Have ready</span><i>A photo or logo</i><i>Your links</i><i>About five minutes</i></div></section>`;
+function openPV(){$("#pv").classList.add("open");document.documentElement.style.overflow="hidden";document.body.style.overflow="hidden"}
+function closePV(){const p=$("#pv");if(p)p.classList.remove("open");document.documentElement.style.overflow="";document.body.style.overflow=""}
 const POSL=[["t","Top"],["c","Center"],["b","Bottom"]];
 const seg=(key,label)=>`<div class="seg"><span>${label}</span>${POSL.map(([v,l])=>`<button data-pos="${key}.${v}" aria-pressed="${(S[key]||(key==="avp"?"t":"c"))===v}">${l}</button>`).join("")}</div>`;
 function field(k){const f=F.find(x=>x[0]===k),lb=LB()[k]||f[1];return `<label class="f">${esc(lb)}<input data-v="${k}" value="${esc(S.v[k])}" placeholder="${esc(f[2])}" autocomplete="off"></label>`}
@@ -42,17 +45,17 @@ function editBox(){return `<details class="ex"><summary>Already set up? Edit you
 function panel(){
  const T=TT[step];
  $("#steps").innerHTML=ST.map((n,i)=>`<button data-i="${i}" class="${i<step?"done":""}" ${i===step?'aria-current="step"':""}><span class="n">${i<step?"✓":i+1}</span><span class="tx">${n}</span></button>`).join("");
- let h=step===0?introHTML():"";
+ let h=step===0?introHTML()+editBox():"";
  h+=`<span class="stp">Step ${step+1} of ${ST.length}</span><h2>${T[0]}</h2><p class="sub">${T[1]}</p>`;
- if(step===0)h+=`<h4 class="gh" style="margin-top:0">WHAT ARE YOU MAKING?</h4><div class="kinds"><button data-k="call" aria-pressed="${S.k==="call"}"><i class="kd k1"></i><b>Calling card</b><span>Your photo, story, and skills. Made for people.</span></button><button data-k="biz" aria-pressed="${S.k==="biz"}"><i class="kd k2"></i><b>Business card</b><span>Your logo, services, and hours. Made for brands.</span></button></div><h4 class="gh">DESIGN</h4><div class="tp">${TP.map(([k,n])=>`<button data-t="${k}" aria-pressed="${S.t===k}">${thumb(k,.4)}<div style="margin-top:8px">${n}</div></button>`).join("")}</div><h4 class="gh">COLOR</h4><div class="sw">${CO.map(c=>`<button data-c="${c}" style="background:${c}" aria-label="Color ${c}" aria-pressed="${S.c===c}"></button>`).join("")}</div>${editBox()}`;
+ if(step===0)h+=`<h4 class="gh" style="margin-top:0">WHAT ARE YOU MAKING?</h4><div class="kinds"><button data-k="call" aria-pressed="${S.k==="call"}"><i class="kd k1"></i><b>Calling card</b><span>Your photo, story, and skills. Made for people.</span></button><button data-k="biz" aria-pressed="${S.k==="biz"}"><i class="kd k2"></i><b>Business card</b><span>Your logo, services, and hours. Made for brands.</span></button></div><h4 class="gh">DESIGN</h4><div class="tp">${TP.map(([k,n])=>`<button data-t="${k}" aria-pressed="${S.t===k}">${thumb(k,.4)}<div style="margin-top:8px">${n}</div></button>`).join("")}</div><h4 class="gh">COLOR</h4><div class="sw">${CO.map(c=>`<button data-c="${c}" style="background:${c}" aria-label="Color ${c}" aria-pressed="${S.c===c}"></button>`).join("")}</div>`;
  if(step===1)h+=`${["name","role","co","tag"].map(field).join("")}<h4 class="gh">${S.k==="biz"?"YOUR LOGO":"YOUR PHOTO"}</h4>${imgBlock("av")}<h4 class="gh">COVER IMAGE (OPTIONAL)</h4>${imgBlock("cv")}${API.ok?"":`<p class="fh" style="margin-top:12px">Images show in this preview. They are saved with your page once the site runs on Netlify.</p>`}`;
- if(step===2)h+=`<p class="tip">Tap a button to add it. Use <b>Show a name instead of the link</b> to display a name like "Renze Alano" rather than the web address.</p>${group("CONTACT",CONTACT)}${group("SOCIAL MEDIA",SOCIAL)}`;
+ if(step===2)h+=`<p class="tip">Tap a button to add it. Use <b>Show a name instead of the link</b> to display a name like "Alex Morgan" rather than the web address.</p>${group("CONTACT",CONTACT)}${group("SOCIAL MEDIA",SOCIAL)}`;
  if(step===3)h+=extrasHTML();
  if(step===4)h+=pubHTML();
  h+=`<div class="nav2"><button class="btn g" id="bk" ${step?"":"disabled"}>Back</button><button class="btn g pvb" id="pvb">Preview</button><button class="btn" id="nx">${step===4?"Done":"Next"}</button></div>`;
  $("#panel").innerHTML=h;
  $("#bk").onclick=()=>{step--;panel();updPV();scrollTop()};
- $("#pvb").onclick=()=>$("#pv").classList.add("open");
+ $("#pvb").onclick=openPV;
  $("#nx").onclick=()=>{if(step===4){if(API.ok&&!S.published){toast("Publish your page first");return}burst();toast("All set. Tap your Lazy card to test it");setTimeout(()=>{location.hash="#home"},1200);return}step++;panel();updPV();scrollTop()};
  if(step===4){if(!API.ok)fillLink();else{if(S.published){const q=$("#qr");if(q)q.innerHTML=qrSvg(baseUrl()+"/"+S.slug)}if(S.slug)chk()}}
  updPV();
@@ -118,7 +121,7 @@ P.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;c
  sv();panel();updPV();if(focus){const el=$(focus);if(el){el.focus({preventScroll:true});el.scrollIntoView({block:"center",behavior:"smooth"})}}});
 $("#steps").onclick=e=>{const b=e.target.closest("button");if(b){step=+b.dataset.i;panel();scrollTop()}};
 function cyc(d){const i=(TP.findIndex(t=>t[0]===S.t)+d+TP.length)%TP.length;S.t=TP[i][0];S.c=accent(S.t);sv();if(step===0)panel();updPV()}
-$("#pvx").onclick=()=>$("#pv").classList.remove("open");
+$("#pvx").onclick=closePV;
 $("#tp").onclick=()=>cyc(-1);$("#tx").onclick=()=>cyc(1);
 $("#shuf").onclick=()=>{S.t=TP[Math.floor(Math.random()*TP.length)][0];S.c=CO[Math.floor(Math.random()*CO.length)];sv();panel()};
 function openSetup(){panel();updPV()}

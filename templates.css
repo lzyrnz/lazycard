@@ -1,26 +1,38 @@
-/* ===== LazyCard templates v2: nine designs, each with its own motion ===== */
-.card{isolation:isolate;--notch:#0b0a1a}
+/* ===== LazyCard templates v4: nine designs, each with its own layout, widgets and motion ===== */
+.card{isolation:isolate;overflow:hidden;overflow:clip;--notch:#0b0a1a;--px:22px;--pt:26px;--g:var(--a)}
 .scr{--notch:#000}.sc,.tp{--notch:var(--bg)}
-.card .ph{position:relative}
 .card>*{flex-shrink:0}
-.card li a{transition:transform .28s cubic-bezier(.2,.8,.2,1),background .28s,box-shadow .28s,border-color .28s,color .28s}
-.card li a:active{transform:scale(.98)!important}
-.card li a:focus-visible,.card .cta:focus-visible{outline:2px solid currentColor;outline-offset:2px}
-.card li .ib{transition:transform .35s cubic-bezier(.2,.8,.2,1)}
-.card li a:hover .ib{transform:rotate(-8deg) scale(1.1)}
+.card .ph{position:relative;display:grid;place-items:center;flex:none;font-weight:800;background:#8883 center/cover no-repeat}
+.card .ph.im{font-size:0}
+.card[data-k=biz] .ph.im{background-color:#fff;background-size:contain;background-position:center}
+.card .tn{display:none}
+.card ul.l1,.card ul.l2{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:8px;width:100%}
+.card li a{transition:transform .3s cubic-bezier(.2,.8,.2,1),background .3s,box-shadow .3s,border-color .3s,color .3s,translate .3s}
+.card li a:active{scale:.98}
+.card li a:focus-visible,.card .cta:focus-visible,.card .tn button:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+.card li .ib{transition:transform .35s cubic-bezier(.3,1.6,.5,1)}.card li a:hover .ib{transform:rotate(-8deg) scale(1.12)}
 .card .cta{color:var(--on,#fff);position:relative;overflow:hidden;transition:transform .28s,box-shadow .28s,background .28s}
 .card .cta::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,#ffffff55 50%,transparent 70%);transform:translateX(-120%);pointer-events:none}
 .card .cta:hover{transform:translateY(-2px)}.card .cta:hover::after{transform:translateX(120%);transition:transform .7s}
-.card .sx{transition:transform .3s,box-shadow .3s}
+.card .ctas .cta{padding:15px}
+.card .sx{transition:transform .3s,box-shadow .3s;scroll-margin-top:72px}
 .card .chips2 span{transition:transform .25s,background .25s}.card .chips2 span:hover{transform:translateY(-2px)}
-.card .gl img{transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .3s;cursor:zoom-in}.card .gl img:hover{transform:scale(1.03)}
 .card .bd2{align-self:flex-start}
+/* 3D tilt follows the pointer on desktop */
+[data-tilt]{transform:perspective(760px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .2s ease-out,translate .3s,background .3s,box-shadow .3s,border-color .3s,color .3s}
+@keyframes float{50%{translate:0 -7px}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes floaty{to{transform:translate(-18px,22px) scale(1.06)}}
+@keyframes pulse{50%{box-shadow:0 0 0 5px #ffffff22,0 0 80px 18px var(--g)}}
+@keyframes blink{50%{opacity:0}}
+@keyframes cin{from{opacity:0;transform:translateY(18px)}}
+@keyframes pop{from{opacity:0;transform:scale(.86) translateY(10px)}}
 
-/* ---- view page: entrance and scroll reveal (not used in thumbnails or the editor preview) ---- */
+/* ---- customer page: entrance, scroll reveal, float ---- */
 .vcard>*{animation:cin .75s cubic-bezier(.2,.8,.2,1) backwards}
 .vcard>:nth-child(1){animation-delay:.05s}.vcard>:nth-child(2){animation-delay:.12s}.vcard>:nth-child(3){animation-delay:.19s}.vcard>:nth-child(4){animation-delay:.26s}.vcard>:nth-child(5){animation-delay:.33s}.vcard>:nth-child(6){animation-delay:.4s}.vcard>:nth-child(7){animation-delay:.47s}.vcard>:nth-child(n+8){animation-delay:.5s}
+.vcard>.ph{animation:cin .75s cubic-bezier(.2,.8,.2,1) .1s backwards,float 6s ease-in-out .9s infinite}
 .vcard ul>li{animation:cin .65s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(.35s + var(--i,0)*.07s)}
-@keyframes cin{from{opacity:0;transform:translateY(18px)}}
 .vcard .sx{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}.vcard .sx.on{opacity:1;transform:none}
 .vcard .tl::before{transform-origin:top;transform:scaleY(0);transition:transform 1.3s cubic-bezier(.2,.8,.2,1) .2s}.vcard .sx.on .tl::before{transform:scaleY(1)}
 .vcard .tl li::before{transform:scale(0);transition:transform .5s cubic-bezier(.3,1.6,.5,1) calc(.35s + var(--j,0)*.18s)}.vcard .sx.on .tl li::before{transform:scale(1)}
@@ -28,301 +40,13 @@
 .vcard .sx.on .chips2 span:nth-child(2){transition-delay:.06s}.vcard .sx.on .chips2 span:nth-child(3){transition-delay:.12s}.vcard .sx.on .chips2 span:nth-child(4){transition-delay:.18s}.vcard .sx.on .chips2 span:nth-child(n+5){transition-delay:.24s}
 .vcard .gl img{opacity:0;transform:scale(.94)}.vcard .sx.on .gl img{opacity:1;transform:none;transition:opacity .6s,transform .7s cubic-bezier(.2,.8,.2,1)}
 .vcard .sx.on .gl img:nth-child(2){transition-delay:.1s}.vcard .sx.on .gl img:nth-child(3){transition-delay:.2s}.vcard .sx.on .gl img:nth-child(n+4){transition-delay:.3s}
-.pv .card .ph::before,.pv .card::before,.pv .card::after{animation:none!important}
+.pv .card::before,.pv .card::after,.pv .card .ph::before,.pv .card .ph::after,.pv .card .ph{animation:none!important}
 .sc .card *,.sc .card::before,.sc .card::after{animation:none!important;transition:none!important}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes floaty{to{transform:translate(-18px,22px) scale(1.06)}}
-@keyframes pulse{50%{box-shadow:0 0 0 5px #ffffff22,0 0 70px 16px var(--g,#8b7bff)}}
 
-/* ============ 1. EXECUTIVE: navy and gold foil ============ */
-.card[data-t=exec]{--ib:transparent;--ic:#E8C27A;--g:#E8C27A;background:radial-gradient(120% 55% at 50% 0%,#1a2f57 0%,transparent 62%),repeating-linear-gradient(135deg,#0a152b 0 14px,#0c192f 14px 28px);color:#f3ecdc;align-items:center;text-align:center;border-radius:30px}
-.card[data-t=exec]::before{content:"";position:absolute;inset:9px;border-radius:22px;padding:1.5px;background:linear-gradient(120deg,#f6dea6,#8a6a2c 30%,#f6dea6 52%,#7a5a22 75%,#f6dea6);background-size:240% 240%;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:3;animation:foil 7s linear infinite}
-@keyframes foil{to{background-position:240% 0}}
-.card[data-t=exec] .ban{color:#E8C27A;margin-top:10px;letter-spacing:.14em;text-transform:uppercase;font-size:11.5px}
-.card[data-t=exec] .lg{background:transparent;border:1.5px solid #E8C27A;color:#E8C27A;border-radius:50%}
-.card[data-t=exec] .ph{width:116px;height:116px;margin-top:8px;box-shadow:0 0 0 4px #0a152b,0 0 0 5.5px #E8C27A,0 20px 40px #0009}
-.card[data-t=exec] .ph::before{content:"";position:absolute;inset:-13px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 58%,#f6dea6 78%,transparent 92%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));animation:spin 8s linear infinite;z-index:-1}
-.card[data-k=biz][data-t=exec] .ph::before{display:none}
-.card[data-t=exec] h3{font:700 38px/1.05 'Cormorant Garamond',Georgia,serif;color:#fff;margin-top:6px}
-.card[data-t=exec] h3::after{content:"";display:block;width:64px;height:1px;margin:12px auto 0;background:linear-gradient(90deg,transparent,#E8C27A,transparent)}
-.card[data-t=exec] .role{color:#E8C27A;text-transform:uppercase;letter-spacing:.2em;font-size:11.5px;font-weight:600;margin-top:12px;opacity:1}
-.card[data-t=exec] .tg{font:italic 600 18px 'Cormorant Garamond',Georgia,serif;opacity:.85;margin-top:10px}
-.card[data-t=exec] .bd2{align-self:center;border:1px solid #E8C27A66;background:transparent;color:#E8C27A}
-.card[data-t=exec] ul{width:100%;gap:0;margin-top:22px}
-.card[data-t=exec] ul>li{border-top:1px solid #E8C27A2e}.card[data-t=exec] ul>li:last-child{border-bottom:1px solid #E8C27A2e}
-.card[data-t=exec] li a{justify-content:center;padding:13px 0;position:relative}
-.card[data-t=exec] li a:hover{color:#f6dea6;transform:none;letter-spacing:.02em}
-.card[data-t=exec] .cta{background:linear-gradient(135deg,#f6dea6,#c99a45);color:#0a152b}
-.card[data-t=exec] .ctas .cta.gh{background:transparent;color:#E8C27A;border-color:#E8C27A88}
-.card[data-t=exec] .nt{background:transparent;border:1px solid #E8C27A55;color:#E8C27A}
-.card[data-t=exec] .sx{background:linear-gradient(180deg,#ffffff0b,#ffffff03);border:1px solid #E8C27A33;border-radius:16px}
-.card[data-t=exec] .sx h4{color:#E8C27A;opacity:1;letter-spacing:.22em}
-.card[data-t=exec] .tl::before{background:#E8C27A55}.card[data-t=exec] .tl li::before{background:#E8C27A;box-shadow:0 0 0 4px #E8C27A22}
-.card[data-t=exec] .chips2 span{background:transparent;border:1px solid #E8C27A55}
-.card[data-t=exec] .sv,.card[data-t=exec] .hr{border-color:#E8C27A26}
-.card[data-t=exec] .sx blockquote{border-color:#E8C27A88}
-.card[data-t=exec] .cpy{border-color:#E8C27A66;color:#E8C27A;background:transparent}
-
-/* ============ 2. CORPORATE: crisp, trustworthy ============ */
-.card[data-t=corp]{--ib:color-mix(in srgb,var(--a) 13%,#fff);--ic:var(--a);background:#eef0f6;color:#12142b;padding:0;border-radius:28px;gap:0}
-.card[data-t=corp] .hd{min-height:170px;padding:22px;color:#fff;flex:none;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--a),color-mix(in srgb,var(--a) 35%,#0b1020));z-index:0}
-.card[data-t=corp] .hd::before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 82% 22%,#ffffff30 0 70px,transparent 71px),radial-gradient(circle at 66% 95%,#ffffff1c 0 110px,transparent 111px),radial-gradient(circle at 10% 100%,#0000002e 0 90px,transparent 91px);animation:floaty 12s ease-in-out infinite alternate;z-index:-1}
-.card[data-t=corp] .ban{margin:0;font-size:13.5px}.card[data-t=corp] .lg{background:#fff;color:var(--a)}
-.card[data-t=corp] .bd{background:#fff;border-radius:26px 26px 0 0;margin-top:-28px;padding:0 22px 22px;display:flex;flex-direction:column;flex:1;position:relative;box-shadow:0 -12px 30px #0b102022}
-.card[data-t=corp] .ph{margin-top:-52px;border:5px solid #fff;border-radius:26px;color:var(--a);background-color:#e6ecfb;width:104px;height:104px;box-shadow:0 12px 28px #0b102030}
-.card[data-t=corp] .bd>:first-child:not(.ph){margin-top:24px}
-.card[data-t=corp] h3{margin-top:14px;font-size:30px}
-.card[data-t=corp] .role{color:var(--a);font-weight:700;opacity:1}
-.card[data-t=corp] .tg{border-left:3px solid var(--a);padding-left:12px;opacity:.75}
-.card[data-t=corp] ul{gap:8px}
-.card[data-t=corp] li a{background:#fff;border:1px solid #e3e6f1;border-radius:14px;padding:9px 12px;position:relative}
-.card[data-t=corp] li a::after{content:"→";margin-left:auto;color:var(--a);opacity:0;transform:translateX(-6px);transition:.3s}
-.card[data-t=corp] li a:hover{border-color:var(--a);box-shadow:0 8px 22px color-mix(in srgb,var(--a) 22%,transparent);transform:translateX(3px)}
-.card[data-t=corp] li a:hover::after{opacity:1;transform:none}
-.card[data-t=corp] .ctas .cta.gh{color:var(--a);border-color:var(--a)}
-.card[data-t=corp] .hd .nt{background:#ffffff2b;color:#fff;margin:14px 0 0;backdrop-filter:blur(6px)}
-.card[data-t=corp] .sx{background:#fff;border:1px solid #e7e9f3;box-shadow:0 6px 20px #0b10200d}
-.card[data-t=corp] .sx h4{color:var(--a);opacity:1;display:flex;align-items:center;gap:8px}
-.card[data-t=corp] .sx h4::before{content:"";width:16px;height:3px;border-radius:2px;background:var(--a)}
-.card[data-t=corp] .tl::before{background:color-mix(in srgb,var(--a) 28%,#fff)}.card[data-t=corp] .tl li::before{background:var(--a);box-shadow:0 0 0 4px color-mix(in srgb,var(--a) 18%,#fff)}
-.card[data-t=corp] .chips2 span{background:color-mix(in srgb,var(--a) 11%,#fff);color:var(--a)}
-.card[data-t=corp] .cpy{color:var(--a);border-color:color-mix(in srgb,var(--a) 40%,#fff);background:#fff}
-
-/* ============ 3. AURA: living aurora and glass ============ */
-.card[data-t=aura]{--ib:#ffffff22;--ic:#fff;--g:var(--a);background:#0a0820;color:#fff;align-items:center;text-align:center}
-.card[data-t=aura]::before{content:"";position:absolute;inset:-25% -20%;z-index:-1;background:radial-gradient(38% 30% at 22% 18%,color-mix(in srgb,var(--a) 95%,transparent),transparent 70%),radial-gradient(34% 28% at 82% 28%,#ff6a3dc8,transparent 70%),radial-gradient(40% 32% at 58% 84%,#2dd4bfa8,transparent 70%);filter:blur(26px);opacity:.85;animation:aur 16s ease-in-out infinite alternate}
-@keyframes aur{50%{transform:translate(6%,-3%) scale(1.08) rotate(3deg)}100%{transform:translate(-5%,5%) scale(1.14) rotate(-4deg)}}
-.card[data-t=aura] .ban{background:#ffffff1d;padding:6px 13px;border-radius:99px;border:1px solid #ffffff33;backdrop-filter:blur(8px)}.card[data-t=aura] .lg{display:none}
-.card[data-t=aura] .ph{width:112px;height:112px;box-shadow:0 0 0 5px #ffffff26,0 0 50px 8px var(--a);animation:pulse 4.5s ease-in-out infinite}
-.card[data-t=aura] h3{background:linear-gradient(180deg,#fff 30%,#c9c0ff);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:32px}
-.card[data-t=aura] .role{opacity:.9}
-.card[data-t=aura] .bd2{align-self:center;background:#ffffff1f;border:1px solid #ffffff2e}
-.card[data-t=aura] ul{width:100%}
-.card[data-t=aura] li a{background:#ffffff14;border:1px solid #ffffff2a;border-radius:16px;padding:7px 11px;backdrop-filter:blur(10px)}
-.card[data-t=aura] li a:hover{background:#ffffff24;border-color:#ffffff66;box-shadow:0 0 28px color-mix(in srgb,var(--a) 70%,transparent);transform:translateY(-3px)}
-.card[data-t=aura] .cta{background:#fff;color:#120e33}.card[data-t=aura] .ctas .cta.gh{background:#ffffff14;color:#fff;border-color:#ffffff44}
-.card[data-t=aura] .nt{background:#ffffff1c;border:1px solid #ffffff2e}
-.card[data-t=aura] .sx{background:#ffffff10;border:1px solid #ffffff24;backdrop-filter:blur(14px)}
-
-/* ============ 4. MONO GRID: neo-brutalist tiles ============ */
-.card[data-t=mono]{--ib:#fff;--ic:#0b0b0b;background:linear-gradient(#0b0b0b12 1px,transparent 1px) 0 0/22px 22px,linear-gradient(90deg,#0b0b0b12 1px,transparent 1px) 0 0/22px 22px,#eceef3;color:#0b0b0b;border:3px solid #0b0b0b;border-radius:16px}
-.card[data-t=mono] .ban{border-bottom:3px solid #0b0b0b;padding-bottom:12px;font-weight:800}.card[data-t=mono] .lg{border-radius:0;background:#0b0b0b;color:#fff}
-.card[data-t=mono] .ph{border-radius:0;width:100%;height:150px;background:repeating-linear-gradient(45deg,#0000001f 0 7px,transparent 7px 14px),var(--a);color:var(--on);font-size:64px;border:3px solid #0b0b0b;box-shadow:6px 6px 0 #0b0b0b;margin-bottom:22px}
-.card[data-t=mono] .ph.im{background-color:#fff;background-size:cover}.card[data-k=biz][data-t=mono] .ph.im{background-size:contain;border-radius:0}
-.card[data-t=mono] h3{font-size:40px;line-height:.94;text-transform:uppercase;align-self:flex-start;background:linear-gradient(transparent 60%,var(--a) 60%);padding-right:6px}
-.card[data-t=mono] .role{align-self:flex-start;background:#0b0b0b;color:#fff;padding:3px 10px;margin-top:12px;font-weight:700;font-size:12.5px;opacity:1}
-.card[data-t=mono] .bd2{border:2px solid #0b0b0b;background:#fff;border-radius:0}
-.card[data-t=mono] ul{grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
-.card[data-t=mono] li a{flex-direction:column;align-items:flex-start;border:3px solid #0b0b0b;background:#fff;padding:12px;font-size:12.5px;min-height:92px;gap:8px;font-weight:700;border-radius:0;box-shadow:0 0 0 #0b0b0b}
-.card[data-t=mono] li a:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 #0b0b0b;background:var(--a);color:var(--on)}
-.card[data-t=mono] li a:hover .ib{color:inherit}
-.card[data-t=mono] .ib{width:22px;height:22px}
-.card[data-t=mono] .cta{background:#0b0b0b;color:#fff;border-radius:0;border:3px solid #0b0b0b;box-shadow:4px 4px 0 var(--a)}.card[data-t=mono] .cta:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--a)}
-.card[data-t=mono] .ctas .cta.gh{background:#fff;color:#0b0b0b;border:3px solid #0b0b0b;box-shadow:4px 4px 0 #0b0b0b}
-.card[data-t=mono] .nt{background:var(--a);color:var(--on);border:3px solid #0b0b0b;border-radius:0}
-.card[data-t=mono] .sx{background:#fff;border:3px solid #0b0b0b;border-radius:0;box-shadow:5px 5px 0 #0b0b0b}
-.card[data-t=mono] .sx h4{display:inline-block;background:#0b0b0b;color:#fff;padding:3px 9px;opacity:1}
-.card[data-t=mono] .tl::before{width:3px;background:#0b0b0b}.card[data-t=mono] .tl li::before{border-radius:0;background:var(--a);border:2px solid #0b0b0b;box-shadow:none}
-.card[data-t=mono] .chips2 span{border:2px solid #0b0b0b;border-radius:0;background:#fff}.card[data-t=mono] .chips2 span:hover{background:var(--a);color:var(--on)}
-.card[data-t=mono] .sv,.card[data-t=mono] .hr{border-color:#0b0b0b}.card[data-t=mono] .gl img{border:2px solid #0b0b0b;border-radius:0}
-.card[data-t=mono] .cpy{border:2px solid #0b0b0b;border-radius:0;background:#fff}
-
-/* ============ 5. STUDIO: bold poster ============ */
-.card[data-t=studio]{--ib:var(--on);--ic:var(--a);background:var(--a);color:var(--on)}
-.card[data-t=studio]::before{content:"";position:absolute;right:-110px;top:-90px;width:340px;height:340px;border-radius:50%;background:color-mix(in srgb,var(--on) 14%,transparent);z-index:-1;animation:floaty 9s ease-in-out infinite alternate}
-.card[data-t=studio]::after{content:"";position:absolute;left:-70px;top:300px;width:220px;height:220px;border-radius:50%;background:color-mix(in srgb,#000 13%,transparent);z-index:-1;animation:floaty 11s ease-in-out infinite alternate-reverse}
-.card[data-t=studio] .lg{background:var(--on);color:var(--a)}
-.card[data-t=studio] .ph{align-self:flex-end;margin:6px 0 -84px;border-radius:30px 30px 6px 30px;width:96px;height:96px;transform:rotate(6deg);border:4px solid var(--on);transition:transform .4s cubic-bezier(.3,1.6,.5,1);box-shadow:0 14px 30px #0003}
-.card[data-t=studio] .ph:hover{transform:rotate(-2deg) scale(1.06)}
-.card[data-t=studio] h3{font-size:60px;line-height:.9;margin-top:0;max-width:7ch;letter-spacing:-.045em}
-.card[data-t=studio] .role{display:inline-block;align-self:flex-start;margin-top:16px;background:var(--on);color:var(--a);padding:5px 14px;border-radius:99px;font-weight:800;font-size:13px;opacity:1;transform:rotate(-2deg)}
-.card[data-t=studio] .tg{opacity:.85}
-.card[data-t=studio] .bd2{background:#ffffff33;color:inherit}
-.card[data-t=studio] li a{background:var(--on);color:var(--a);border-radius:99px;padding:5px 14px 5px 5px;font-weight:700;position:relative}
-.card[data-t=studio] li a::after{content:"→";margin-left:auto;transition:transform .3s}
-.card[data-t=studio] li a:hover{transform:translateX(6px);background:#111;color:#fff}.card[data-t=studio] li a:hover::after{transform:translateX(4px)}
-.card[data-t=studio] .ib{border-radius:50%;background:var(--a);color:var(--on)}
-.card[data-t=studio] .cta{background:#111;color:#fff;border-radius:99px}.card[data-t=studio] .ctas .cta.gh{background:transparent;color:var(--on);border-color:var(--on)}
-.card[data-t=studio] .nt{background:var(--on);color:var(--a)}
-.card[data-t=studio] .sx{background:var(--on);color:#14121f;border:0;border-radius:26px;box-shadow:0 12px 30px #0002}
-.card[data-t=studio] .sx h4{color:var(--a);opacity:1}
-.card[data-t=studio] .tl::before{background:color-mix(in srgb,var(--a) 30%,transparent)}.card[data-t=studio] .tl li::before{background:var(--a);box-shadow:0 0 0 4px color-mix(in srgb,var(--a) 20%,transparent)}
-.card[data-t=studio] .chips2 span{background:color-mix(in srgb,var(--a) 14%,transparent);color:var(--a)}
-.card[data-t=studio] .cpy{color:var(--a)}
-
-/* ============ 6. BENTO: tidy tiles ============ */
-.card[data-t=bento]{--ib:var(--a);--ic:var(--on);background:color-mix(in srgb,var(--a) 11%,#f3f1ff);color:#17132E;padding:16px;border-radius:30px}
-.card[data-t=bento] .ban{background:#fff;padding:8px 13px;border-radius:16px;align-self:flex-start;box-shadow:0 4px 14px #17132e0f}
-.card[data-t=bento] .ph{border-radius:28px;width:92px;height:92px;font-size:32px;color:var(--a);background-color:#fff;box-shadow:0 8px 22px #17132e18}
-.card[data-t=bento] h3{font-size:31px}.card[data-t=bento] .role{opacity:.8}
-.card[data-t=bento] ul{grid-template-columns:1fr 1fr;gap:9px;margin-top:20px}
-.card[data-t=bento] li a{flex-direction:column;align-items:flex-start;background:#fff;border-radius:22px;padding:13px;min-height:88px;font-size:13px;gap:9px;box-shadow:0 4px 14px #17132e0d}
-.card[data-t=bento] li:nth-child(4n+2) a{background:color-mix(in srgb,var(--a) 14%,#fff)}.card[data-t=bento] li:nth-child(4n+3) a{background:#17132E;color:#fff}.card[data-t=bento] li:nth-child(4n+3) .ib{background:#fff;color:#17132E}
-.card[data-t=bento] li:first-child{grid-column:1/-1}.card[data-t=bento] li:first-child a{min-height:62px;flex-direction:row;align-items:center;gap:11px}
-.card[data-t=bento] li a:hover{transform:translateY(-4px) rotate(-.6deg);box-shadow:0 14px 28px color-mix(in srgb,var(--a) 24%,transparent)}
-.card[data-t=bento] .cta{border-radius:22px;background:#17132E;color:#fff}.card[data-t=bento] .ctas .cta.gh{background:#fff;color:#17132E;border-color:transparent}
-.card[data-t=bento] .nt{background:#fff;border-radius:18px}
-.card[data-t=bento] .sx{background:#fff;border:0;border-radius:24px;box-shadow:0 4px 14px #17132e0d}
-.card[data-t=bento] .sx h4{color:var(--a);opacity:1}
-.card[data-t=bento] .tl::before{background:color-mix(in srgb,var(--a) 25%,#fff)}.card[data-t=bento] .tl li::before{background:var(--a);box-shadow:0 0 0 4px color-mix(in srgb,var(--a) 18%,#fff)}
-.card[data-t=bento] .chips2 span{background:color-mix(in srgb,var(--a) 13%,#fff);color:var(--a)}
-.card[data-t=bento] .cpy{background:color-mix(in srgb,var(--a) 13%,#fff);color:var(--a);border:0}
-
-/* ============ 7. BOARDING PASS: ticket with a tear line ============ */
-.card[data-t=ticket]{--ib:color-mix(in srgb,var(--a) 12%,#fff);--ic:var(--a);background:#fff;color:#14122a;border-radius:22px}
-.card[data-t=ticket]::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:var(--a);z-index:2}
-.card[data-t=ticket] .ban{margin:0 -22px 20px;padding:18px 22px 14px;background:var(--a);color:var(--on)}.card[data-t=ticket] .lg{background:var(--on);color:var(--a)}
-.card[data-t=ticket] .ban::after{content:"BOARDING PASS";margin-left:auto;font-size:9.5px;letter-spacing:.2em;opacity:.85}
-.card[data-t=ticket] .ph{border-radius:14px;width:88px;height:88px}
-.card[data-t=ticket] h3{text-transform:uppercase;font-size:28px;letter-spacing:-.02em}
-.card[data-t=ticket] h3::before{content:"PASSENGER";display:block;font:700 9.5px 'Hanken Grotesk',system-ui,sans-serif;letter-spacing:.2em;color:var(--a);margin-bottom:5px}
-.card[data-t=ticket] .role::before{content:"ROLE   ";font:700 9.5px 'Hanken Grotesk',system-ui,sans-serif;letter-spacing:.2em;color:var(--a);margin-right:8px}
-.card[data-t=ticket] ul{position:relative;margin-top:26px;padding-top:22px;border-top:2px dashed #d6d2ea}
-.card[data-t=ticket] ul::before,.card[data-t=ticket] ul::after{content:"";position:absolute;top:-14px;width:26px;height:26px;border-radius:50%;background:var(--notch)}
-.card[data-t=ticket] ul::before{left:-35px}.card[data-t=ticket] ul::after{right:-35px}
-.card[data-t=ticket] li a{padding:4px 0;border-radius:10px}.card[data-t=ticket] li a:hover{background:color-mix(in srgb,var(--a) 8%,#fff);transform:translateX(4px);padding-left:6px}
-.card[data-t=ticket] .cta{border-radius:10px}.card[data-t=ticket] .ctas .cta.gh{color:var(--a);border-color:var(--a)}
-.card[data-t=ticket] .nt{background:color-mix(in srgb,var(--a) 10%,#fff);color:var(--a)}
-.card[data-t=ticket] .sx{background:#faf9ff;border:1.5px dashed #d6d2ea;border-radius:14px}
-.card[data-t=ticket] .sx h4{color:var(--a);opacity:1}.card[data-t=ticket] .sx h4::before{content:"\2708\FE0E  ";letter-spacing:0}
-.card[data-t=ticket] .tl::before{background:#d6d2ea}.card[data-t=ticket] .tl li::before{background:var(--a);box-shadow:0 0 0 4px color-mix(in srgb,var(--a) 16%,#fff)}
-.card[data-t=ticket] .chips2 span{background:color-mix(in srgb,var(--a) 10%,#fff);color:var(--a)}
-.card[data-t=ticket] .cpy{color:var(--a)}
-.card[data-t=ticket] .pw{font-size:0;height:46px;opacity:1;position:relative;overflow:hidden;margin-top:18px;background:repeating-linear-gradient(90deg,#14122a 0 2px,#fff 2px 5px,#14122a 5px 6px,#fff 6px 10px,#14122a 10px 13px,#fff 13px 15px)}
-.card[data-t=ticket] .pw::after{content:"";position:absolute;top:0;bottom:0;width:3px;background:#ff3b5c;box-shadow:0 0 12px #ff3b5c;animation:scan 3.2s ease-in-out infinite alternate}
-@keyframes scan{from{left:0}to{left:calc(100% - 3px)}}
-
-/* ============ 8. TERMINAL: a shell that types your name ============ */
-.card[data-t=term]{--ib:transparent;--ic:var(--a);background:repeating-linear-gradient(0deg,#ffffff07 0 1px,transparent 1px 3px),radial-gradient(120% 60% at 50% 0%,#101a36,#080d1a 70%);color:#cfe2ff;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;border-radius:18px;padding-top:50px}
-.card[data-t=term]::before{content:"";position:absolute;left:16px;top:17px;width:54px;height:10px;background:radial-gradient(circle,#ff5f57 4.5px,transparent 5px) 0 0/18px 10px,radial-gradient(circle,#febc2e 4.5px,transparent 5px) 18px 0/18px 10px,radial-gradient(circle,#28c840 4.5px,transparent 5px) 36px 0/18px 10px;background-repeat:no-repeat}
-.card[data-t=term]::after{content:"~/lazycard";position:absolute;top:13px;left:0;right:0;text-align:center;font-size:11.5px;color:#6f86ad}
-.card[data-t=term] *{font-family:inherit}
-.card[data-t=term] .lg{border-radius:4px}.card[data-t=term] .ban{color:#9fb6dd}
-.card[data-t=term] .ph{border-radius:8px;border:1.5px solid var(--a);width:88px;height:88px;font-size:32px;box-shadow:0 0 24px color-mix(in srgb,var(--a) 35%,transparent)}
-.card[data-t=term] h3{font-size:24px;letter-spacing:0;font-weight:700;color:#fff}
-.card[data-t=term] h3::before,.card[data-t=term] .role::before{content:"$ whoami";display:block;color:var(--a);font-size:12px;font-weight:500;margin-bottom:5px}.card[data-t=term] .role::before{content:"$ cat role";margin-top:14px}
-.card[data-t=term] .role::after{content:"\258D";margin-left:4px;color:var(--a);animation:blink 1s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
-.vcard[data-t=term] h3{overflow:hidden;white-space:nowrap;width:calc(var(--n,10)*1ch + 2px);max-width:100%;animation:typing 1.4s steps(var(--n,10)) .5s backwards,cin .75s backwards}
-@keyframes typing{from{width:0}}
-.card[data-t=term] ul::before{content:"$ ls links/";display:block;grid-column:1/-1;color:var(--a);font-size:12px;margin-bottom:2px}
-.card[data-t=term] li a{padding:7px 8px;border-radius:6px;font-size:13.5px}
-.card[data-t=term] li a::after{content:"\2197";margin-left:auto;color:var(--a);transition:transform .25s}
-.card[data-t=term] li a:hover{background:#ffffff0f;color:var(--a);transform:translateX(4px)}.card[data-t=term] li a:hover::after{transform:translate(3px,-3px)}
-.card[data-t=term] .cta{background:transparent;border:1.5px solid var(--a);color:var(--a);border-radius:6px}
-.card[data-t=term] .cta:hover{background:var(--a);color:#06101e}
-.card[data-t=term] .ctas .cta.gh{border-color:#6f86ad;color:#9fb6dd}
-.card[data-t=term] .nt{background:#ffffff0c;border:1px dashed var(--a);color:var(--a);border-radius:6px;text-align:left}
-.card[data-t=term] .sx{background:#ffffff08;border:0;border-left:2px solid var(--a);border-radius:0 12px 12px 0}
-.card[data-t=term] .sx h4{color:var(--a);text-transform:none;letter-spacing:0;opacity:1;font:600 13px ui-monospace,Menlo,monospace}.card[data-t=term] .sx h4::before{content:"// "}
-.card[data-t=term] .tl::before{background:#ffffff26}.card[data-t=term] .tl li::before{background:var(--a);border-radius:2px;box-shadow:0 0 12px color-mix(in srgb,var(--a) 60%,transparent)}
-.card[data-t=term] .chips2 span{border-radius:4px;background:transparent;border:1px solid color-mix(in srgb,var(--a) 50%,transparent);color:var(--a)}
-.card[data-t=term] .cpy{border-radius:4px;color:var(--a)}
-.card[data-t=term] .pw{color:#6f86ad}
-
-/* ============ 9. SUNSET: retro sun behind your photo ============ */
-.card[data-t=sun]{--ib:#ffffff30;--ic:#fff;--g:#ffb36b;color:#fff;align-items:center;text-align:center;background:radial-gradient(60% 30% at 50% 30%,#ffb36b44,transparent 70%),linear-gradient(180deg,#25134f 0%,#7a2a98 28%,#ff5d7d 60%,#ff9a62 84%,#ffc27a 100%)}
-.card[data-t=sun]::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(1.5px 1.5px at 18px 28px,#fff,transparent),radial-gradient(1.5px 1.5px at 92px 70px,#fff,transparent),radial-gradient(1px 1px at 160px 22px,#fff,transparent),radial-gradient(1.5px 1.5px at 250px 54px,#fff,transparent),radial-gradient(1px 1px at 310px 96px,#fff,transparent),radial-gradient(1px 1px at 52px 120px,#fff,transparent);background-repeat:no-repeat;animation:twinkle 4s ease-in-out infinite alternate}
-@keyframes twinkle{from{opacity:.35}to{opacity:1}}
-.card[data-t=sun] .ban{margin-bottom:34px}.card[data-t=sun] .lg{background:#fff;color:#d6336c}
-.card[data-t=sun] .ph{width:108px;height:108px;box-shadow:0 0 0 4px #ffffff66;margin-bottom:56px}
-.card[data-t=sun] .ph::before{content:"";position:absolute;inset:-46px;border-radius:50%;z-index:-1;background:linear-gradient(#ffe7a3,#ff8f6b 70%);box-shadow:0 0 90px #ffb36bb0;-webkit-mask-image:linear-gradient(#000 0 52%,transparent 52% 58%,#000 58% 66%,transparent 66% 73%,#000 73% 83%,transparent 83% 92%,#000 92%);mask-image:linear-gradient(#000 0 52%,transparent 52% 58%,#000 58% 66%,transparent 66% 73%,#000 73% 83%,transparent 83% 92%,#000 92%);animation:sunrise 1.6s cubic-bezier(.2,.8,.2,1) both}
-@keyframes sunrise{from{transform:translateY(46px) scale(.88);opacity:0}}
-.card[data-t=sun] h3{font-size:38px;margin-top:0;text-shadow:0 4px 24px #7a2a9866}
-.card[data-t=sun] .bd2{align-self:center;background:#ffffff2e}
-.card[data-t=sun] ul{width:100%}
-.card[data-t=sun] li a{background:#ffffff26;border:1px solid #ffffff3a;border-radius:99px;padding:5px 16px 5px 5px;backdrop-filter:blur(8px)}
-.card[data-t=sun] .ib{border-radius:50%}
-.card[data-t=sun] li a:hover{background:#ffffff40;transform:scale(1.03);box-shadow:0 10px 30px #ff5d7d77}
-.card[data-t=sun] .cta{background:#fff;color:#b8245a;border-radius:99px}.card[data-t=sun] .ctas .cta.gh{background:transparent;color:#fff;border-color:#ffffffaa}
-.card[data-t=sun] .nt{background:#ffffff2a}
-.card[data-t=sun] .sx{background:#ffffff1f;border:1px solid #ffffff33;backdrop-filter:blur(10px)}
-
-/* covers and images */
-.card .cover{margin:-26px -22px 18px;height:140px;background-size:cover;background-position:center;flex:none;width:calc(100% + 44px);-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
-.card[data-t=bento] .cover{margin:-16px -16px 12px;width:calc(100% + 32px);border-radius:30px 30px 0 0}
-.card[data-t=term] .cover{margin:-10px -22px 14px}
-.card[data-t=ticket] .cover{margin-top:-18px}
-.card[data-t=mono] .cover{-webkit-mask-image:none;mask-image:none;border-bottom:3px solid #0b0b0b}
-.card[data-t=sun] .cover{margin-bottom:-24px}
-.card[data-t=exec] .cover{margin-top:-20px}
-@media(prefers-reduced-motion:reduce){.card::before,.card::after,.card .ph::before{animation:none!important}}
-
-.card[data-t=ticket] .ban:first-child{margin-top:-26px;padding-top:20px}
-.card[data-t=ticket] .nt{margin-top:6px}
-.card[data-t=corp] .hd{min-height:150px;padding-bottom:72px}
-.card[data-t=mono] .ph.im{background-position:center;background-repeat:no-repeat;background-color:#fff}
-
-/* customer page on phones: the template fills the whole screen */
-.vcard .pw{cursor:pointer}.vcard .pw:hover{opacity:.9;text-decoration:underline}
-@media(max-width:700px){
- .vw{padding:0;gap:0;justify-content:flex-start;align-items:stretch;min-height:100dvh;background:var(--pg,#0b0a1a)}
- .vw .vcard{max-width:none;width:100%;min-height:100dvh;border-radius:0;box-shadow:none;animation:none}
- .vw .vcard[data-t=mono]{border:0}
- .vw .vcard[data-t=exec]::before{inset:10px;border-radius:20px}
- .vm2{display:none}
-}
-
-/* covers fit edge to edge in every design */
-.card{--px:22px;--pt:26px}
-.card[data-t=bento]{--px:16px;--pt:16px}
-.card .cover{margin:calc(-1*var(--pt)) calc(-1*var(--px)) 18px;width:calc(100% + 2*var(--px));height:auto;aspect-ratio:16/7;background-size:cover;background-repeat:no-repeat;flex:none;-webkit-mask-image:none;mask-image:none}
-.card[data-t=bento] .cover{border-radius:30px 30px 0 0}
-.card[data-t=term] .cover{margin-top:-10px;margin-bottom:16px}
-.card[data-t=mono] .cover{border-bottom:3px solid #0b0b0b}
-.card[data-t=sun] .cover{margin-bottom:14px}
-.card[data-t=ticket] .cover{margin-bottom:0}
-.card[data-t=exec] .cover{margin-top:calc(-1*var(--pt))}
-.card .ph.im{background-repeat:no-repeat}
-
-/* ===== v3: every template has its own photo or logo treatment ===== */
-.card[data-k=biz] .ph.im{background-color:#fff;background-size:contain;background-repeat:no-repeat;background-position:center}
-/* Executive: gold medallion */
-.card[data-k=biz][data-t=exec] .ph.im{border-radius:50%;background-size:66%}
-/* Aura: living blob */
-.card[data-t=aura] .ph{border-radius:62% 38% 58% 42%/52% 48% 52% 48%;animation:morph 10s ease-in-out infinite alternate,pulse 4.5s ease-in-out infinite}
-@keyframes morph{50%{border-radius:42% 58% 38% 62%/58% 42% 58% 42%}100%{border-radius:55% 45% 62% 38%/42% 58% 42% 58%}}
-.card[data-k=biz][data-t=aura] .ph.im{border-radius:62% 38% 58% 42%/52% 48% 52% 48%;background-size:60%}
-/* Bento: avatar tile beside the name */
-.card[data-t=bento]:has(.ph){display:grid;grid-template-columns:auto 1fr;column-gap:14px;grid-auto-flow:row dense;align-content:start}
-.card[data-t=bento]:has(.ph)>*{grid-column:1/-1}
-.card[data-t=bento]:has(.ph)>.ph{grid-column:1;grid-row:span 4;align-self:start;width:92px;height:92px;margin:0 0 4px}
-.card[data-t=bento]:has(.ph)>:is(h3,.role,.bd2,.tg){grid-column:2;align-self:start}
-.card[data-t=bento]:has(.ph)>h3{font-size:26px;margin-top:4px}
-.card[data-t=bento]:has(.ph)>.bd2{margin-top:8px}
-/* Boarding pass: passport photo on the right */
-.card[data-t=ticket]:has(.ph){display:grid;grid-template-columns:1fr auto;column-gap:16px;grid-auto-flow:row dense;align-content:start}
-.card[data-t=ticket]:has(.ph)>*{grid-column:1/-1}
-.card[data-t=ticket]:has(.ph)>.ph{grid-column:2;grid-row:span 4;width:88px;height:112px;margin:0;border-radius:6px;border:2px solid #14122a;box-shadow:4px 4px 0 var(--a);align-self:start}
-.card[data-t=ticket]:has(.ph)>:is(h3,.role,.bd2,.tg){grid-column:1;align-self:start}
-.card[data-t=ticket]:has(.ph)>h3{font-size:25px}
-.card[data-k=biz][data-t=ticket] .ph.im{background-size:78%}
-/* Terminal: framed file */
-.card[data-t=term] .ph{width:100px;height:100px;border-radius:2px;margin-bottom:30px;overflow:visible;border:1px solid var(--a)}
-.card[data-t=term] .ph::before{content:"";position:absolute;inset:-7px;border:1px dashed color-mix(in srgb,var(--a) 45%,transparent);pointer-events:none}
-.card[data-t=term] .ph::after{content:"avatar.png";position:absolute;left:-7px;bottom:-27px;font-size:10.5px;color:#6f86ad;letter-spacing:.02em}
-/* Sunset: arch window in front of the sun */
-.card[data-t=sun] .ph{width:104px;height:132px;border-radius:52px 52px 14px 14px;margin-bottom:50px}
-.card[data-t=sun] .ph::before{inset:-40px -50px -20px}
-.card[data-k=biz][data-t=sun] .ph.im{border-radius:52px 52px 14px 14px;background-size:68%}
-/* Studio and Mono keep the sticker and banner; logos sit inside them */
-.card[data-k=biz][data-t=studio] .ph.im{background-size:72%}
-.card[data-k=biz][data-t=mono] .ph.im{background-size:contain}
-.card[data-k=biz][data-t=corp] .ph.im{background-size:72%}
-
-/* ===== v3: cover images, one idea per template ===== */
-.card[data-t=exec] .cover{-webkit-mask-image:linear-gradient(#000 76%,transparent);mask-image:linear-gradient(#000 76%,transparent);margin-bottom:6px}
-.card[data-t=aura] .cover{margin:0 0 18px;width:100%;border-radius:22px;aspect-ratio:16/8;box-shadow:0 0 0 1px #ffffff2e,0 18px 44px #0008}
-.card[data-t=studio] .cover{margin:2px 0 22px;width:100%;aspect-ratio:16/8;border:5px solid var(--on);border-radius:6px;transform:rotate(-1.4deg);box-shadow:0 16px 36px #0003}
-.card[data-t=bento] .cover{margin:0 0 12px;width:100%;border-radius:24px;aspect-ratio:16/8}
-.card[data-t=term] .cover{margin:0 0 16px;width:100%;border:1px solid color-mix(in srgb,var(--a) 55%,transparent);border-radius:6px;aspect-ratio:16/8;position:relative}
-.card[data-t=term] .cover::after{content:"cover.jpg";position:absolute;right:8px;bottom:6px;font-size:10.5px;color:#fff;background:#000a;padding:2px 7px;border-radius:3px}
-.card[data-t=sun] .cover{margin-bottom:-6px;clip-path:ellipse(78% 100% at 50% 0)}
-.card[data-t=ticket] .cover{margin-bottom:0}
-
-/* ===== v3: gallery layouts that adapt to the number of photos ===== */
+/* ---- gallery that adapts to the number of photos ---- */
 .card .gl{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-.card .gl img{width:100%;height:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block;background:color-mix(in srgb,currentColor 10%,transparent)}
+.card .gl img{width:100%;height:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block;cursor:zoom-in;background:color-mix(in srgb,currentColor 10%,transparent);transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .3s}
+.card .gl img:hover{transform:scale(1.03)}
 .card .gl.g1 img{grid-column:1/-1;aspect-ratio:4/3}
 .card .gl.g2 img{grid-column:span 3}
 .card .gl.g3 img:first-child,.card .gl.g4 img:first-child,.card .gl.g6 img:first-child{grid-column:1/-1;aspect-ratio:16/10}
@@ -330,10 +54,8 @@
 .card .gl.g4 img:not(:first-child){grid-column:span 2}
 .card .gl.g5 img:nth-child(-n+2){grid-column:span 3}.card .gl.g5 img:nth-child(n+3){grid-column:span 2}
 .card .gl.g6 img:nth-child(2),.card .gl.g6 img:nth-child(3){grid-column:span 3}.card .gl.g6 img:nth-child(n+4){grid-column:span 2}
-.card[data-t=mono] .gl img{border-radius:0;border:2px solid #0b0b0b}
-.card[data-t=term] .gl img{border-radius:3px}.card[data-t=ticket] .gl img{border-radius:8px}
 
-/* ===== v3: photo viewer with arrows and swipe ===== */
+/* ---- photo viewer ---- */
 .lb{position:fixed;inset:0;z-index:120;background:#05040cee;display:grid;place-items:center;padding:56px 12px;backdrop-filter:blur(8px)}
 .lb img{max-width:100%;max-height:100%;border-radius:14px;box-shadow:0 30px 80px #000a;object-fit:contain}
 .lbn{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:1.5px solid #ffffff55;background:#00000066;color:#fff;font-size:26px;line-height:1;cursor:pointer;z-index:2}
@@ -341,16 +63,351 @@
 #lbc{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:#fff;font:600 13px 'Hanken Grotesk',system-ui,sans-serif}
 .lb .mx2{color:#fff;border-color:#ffffff55;top:14px;right:14px}
 
-/* ===== v3: tidier spacing ===== */
-.card ul{gap:7px}
-.card .sx{margin-top:14px}
-.card .role{line-height:1.35}
-.card h3{overflow-wrap:anywhere}
-@media(max-width:380px){.card h3{font-size:26px}}
-.card[data-t=aura] .ph{margin-bottom:22px}
-.card[data-t=term] .ph{margin-bottom:40px}
-.card[data-t=sun] .ph{margin-top:38px}
-.card[data-t=sun] .cover{margin-bottom:0}
+/* ---- customer page on phones: the template fills the whole screen ---- */
+.vcard .pw{cursor:pointer}.vcard .pw:hover{opacity:.9;text-decoration:underline}
+@media(max-width:700px){
+ .vw{padding:0;gap:0;justify-content:flex-start;align-items:stretch;min-height:100dvh;background:var(--pg,#0b0a1a)}
+ .vw .vcard{max-width:none;width:100%;min-height:100dvh;border-radius:0;box-shadow:none;animation:none}
+ .vm2{display:none}
+}
 
-.card[data-t=bento] li.wide,.card[data-t=mono] li.wide{grid-column:1/-1}
-.card[data-t=bento] li.wide a,.card[data-t=mono] li.wide a{min-height:0;flex-direction:row;align-items:center}
+/* ============ 1. EXECUTIVE: gold medallion, ledger of contacts, sticky small-caps menu ============ */
+.card[data-t=exec]{--ib:transparent;--ic:#E8C27A;--g:#E8C27A;background:radial-gradient(130% 50% at 50% 0%,#1d3563,transparent 60%),repeating-linear-gradient(135deg,#0a152b 0 14px,#0c192f 14px 28px);color:#f3ecdc;align-items:center;text-align:center;border-radius:30px;padding-bottom:30px}
+.card[data-t=exec]::before{content:"";position:absolute;inset:9px;border-radius:22px;padding:1.5px;background:linear-gradient(120deg,#f6dea6,#8a6a2c 30%,#f6dea6 52%,#7a5a22 75%,#f6dea6);background-size:240% 240%;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:3;animation:foil 7s linear infinite}
+.card[data-t=exec]::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.6;background-image:radial-gradient(1.5px 1.5px at 12% 18%,#f6dea6,transparent),radial-gradient(1px 1px at 82% 28%,#f6dea6,transparent),radial-gradient(1.5px 1.5px at 30% 72%,#f6dea6,transparent),radial-gradient(1px 1px at 70% 88%,#f6dea6,transparent),radial-gradient(1px 1px at 52% 40%,#f6dea6,transparent),radial-gradient(1.5px 1.5px at 90% 60%,#f6dea6,transparent);animation:dust 9s ease-in-out infinite alternate}
+@keyframes foil{to{background-position:240% 0}}@keyframes dust{to{transform:translateY(-22px);opacity:.95}}@keyframes sheen{to{background-position:-160% 0}}
+.card[data-t=exec] .ban{color:#E8C27A;margin-top:10px;letter-spacing:.14em;text-transform:uppercase;font-size:11.5px}
+.card[data-t=exec] .lg{background:transparent;border:1.5px solid #E8C27A;color:#E8C27A;border-radius:50%}
+.card[data-t=exec] .ph{width:152px;height:152px;border-radius:50%;margin:12px 0 8px;font-size:56px;box-shadow:0 0 0 5px #0a152b,0 0 0 6.5px #E8C27A,0 26px 50px #000a}
+.card[data-t=exec] .ph::before{content:"";position:absolute;inset:-18px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 58%,#f6dea6 78%,transparent 92%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));animation:spin 8s linear infinite;z-index:-1}
+.card[data-k=biz][data-t=exec] .ph.im{background-size:60%}
+.card[data-t=exec] h3{font:700 42px/1.04 'Cormorant Garamond',Georgia,serif;margin-top:8px;background:linear-gradient(100deg,#fff 35%,#f6dea6 48%,#fff 62%) 0 0/260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 6s linear infinite}
+.vcard[data-t=exec] h3{animation:cin .75s cubic-bezier(.2,.8,.2,1) .19s backwards,sheen 6s linear 1s infinite}
+.card[data-t=exec] h3::after{content:"";display:block;width:70px;height:1px;margin:14px auto 0;background:linear-gradient(90deg,transparent,#E8C27A,transparent)}
+.card[data-t=exec] .role{color:#E8C27A;text-transform:uppercase;letter-spacing:.22em;font-size:11.5px;font-weight:700;margin-top:14px;opacity:1}
+.card[data-t=exec] .tg{font:italic 600 18px 'Cormorant Garamond',Georgia,serif;opacity:.88;margin-top:10px}
+.card[data-t=exec] .bd2{align-self:center;border:1px solid #E8C27A66;background:transparent;color:#E8C27A}
+.card[data-t=exec] .tn{display:flex;justify-content:center;gap:2px;position:sticky;top:14px;z-index:8;margin:24px auto 0;padding:5px;border:1px solid #E8C27A55;border-radius:99px;background:#0a152bdd;backdrop-filter:blur(10px);max-width:100%;overflow-x:auto;scrollbar-width:none}
+.card[data-t=exec] .tn button{border:0;background:none;color:#e8dcc0;font:700 10.5px 'Hanken Grotesk',system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;padding:9px 12px;border-radius:99px;cursor:pointer;white-space:nowrap;transition:.3s}
+.card[data-t=exec] .tn button.on{background:#E8C27A;color:#0a152b}
+.card[data-t=exec] ul.l1{margin-top:22px;gap:0}
+.card[data-t=exec] ul.l1>li{border-top:1px solid #E8C27A2e}.card[data-t=exec] ul.l1>li:last-child{border-bottom:1px solid #E8C27A2e}
+.card[data-t=exec] ul.l1 li a{justify-content:center;padding:15px 0;font-size:15.5px}
+.card[data-t=exec] li a span{background:linear-gradient(#E8C27A,#E8C27A) 0 100%/0 1px no-repeat;transition:background-size .4s;padding-bottom:2px}
+.card[data-t=exec] li a:hover span{background-size:100% 1px}.card[data-t=exec] li a:hover{color:#f6dea6}
+.card[data-t=exec] ul.l2{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 22px;margin-top:10px}
+.card[data-t=exec] ul.l2 li a{padding:8px 0;font-size:13.5px}.card[data-t=exec] ul.l2 .ib{width:24px;height:24px}
+.card[data-t=exec] .cta{background:linear-gradient(135deg,#f6dea6,#c99a45);color:#0a152b}
+.card[data-t=exec] .ctas .cta.gh{background:transparent;color:#E8C27A;border:1.5px solid #E8C27A88}
+.card[data-t=exec] .nt{background:transparent;border:1px solid #E8C27A55;color:#E8C27A;letter-spacing:.04em}
+.card[data-t=exec] .sx{position:relative;background:linear-gradient(180deg,#ffffff0b,#ffffff03);border:1px solid #E8C27A33;border-radius:6px;padding:22px 18px 18px}
+.card[data-t=exec] .sx::before,.card[data-t=exec] .sx::after{content:"";position:absolute;width:14px;height:14px;border:1.5px solid #E8C27A;pointer-events:none}
+.card[data-t=exec] .sx::before{top:7px;left:7px;border-right:0;border-bottom:0}.card[data-t=exec] .sx::after{bottom:7px;right:7px;border-left:0;border-top:0}
+.card[data-t=exec] .sx h4{color:#E8C27A;opacity:1;letter-spacing:.24em;text-align:center;margin-bottom:16px}
+.card[data-t=exec] .tl::before{background:#E8C27A55}.card[data-t=exec] .tl li::before{background:#E8C27A;box-shadow:0 0 0 4px #E8C27A22}
+.card[data-t=exec] .chips2{justify-content:center}.card[data-t=exec] .chips2 span{background:transparent;border:1px solid #E8C27A55}
+.card[data-t=exec] .sv,.card[data-t=exec] .hr{border-color:#E8C27A26}.card[data-t=exec] .sx blockquote{border-color:#E8C27A88}
+.card[data-t=exec] .cpy{border-color:#E8C27A66;color:#E8C27A;background:transparent}
+.card[data-t=exec] .cover{-webkit-mask-image:linear-gradient(#000 76%,transparent);mask-image:linear-gradient(#000 76%,transparent);margin-bottom:6px}
+
+/* ============ 2. CORPORATE: tabs, labelled contact cards, verified avatar ============ */
+.card[data-t=corp]{--ib:color-mix(in srgb,var(--a) 12%,#fff);--ic:var(--a);background:#eef0f6;color:#12142b;padding:0;gap:0;border-radius:28px}
+.card[data-t=corp] .hd{min-height:210px;padding:22px 22px 84px;color:#fff;flex:none;position:relative;overflow:hidden;z-index:0;background:radial-gradient(70% 90% at 12% 10%,color-mix(in srgb,var(--a) 65%,#fff),transparent 62%),radial-gradient(70% 90% at 95% 20%,color-mix(in srgb,var(--a) 70%,#000),transparent 62%),var(--a);background-size:220% 220%;animation:mesh 14s ease-in-out infinite}
+@keyframes mesh{50%{background-position:100% 100%}}
+.card[data-t=corp] .hd::before{content:"";position:absolute;inset:0;z-index:-1;background-image:linear-gradient(#ffffff17 1px,transparent 1px),linear-gradient(90deg,#ffffff17 1px,transparent 1px);background-size:28px 28px;-webkit-mask-image:linear-gradient(#000,transparent);mask-image:linear-gradient(#000,transparent)}
+.card[data-t=corp] .ban{margin:0;font-size:13.5px}.card[data-t=corp] .lg{background:#fff;color:var(--a)}
+.card[data-t=corp] .hd .nt{background:#ffffff2b;color:#fff;margin:14px 0 0;backdrop-filter:blur(6px)}
+.card[data-t=corp] .bd{background:#fff;border-radius:28px 28px 0 0;margin-top:-38px;padding:0 22px 26px;display:flex;flex-direction:column;flex:1;position:relative;box-shadow:0 -14px 34px #0b102022}
+.card[data-t=corp] .ph{width:136px;height:136px;margin-top:-68px;border:5px solid #fff;border-radius:36px;color:var(--a);background-color:#e6ecfb;font-size:52px;box-shadow:0 18px 36px #0b102033}
+.card[data-t=corp] .ph::after{content:"\2713";position:absolute;right:-9px;bottom:-9px;width:34px;height:34px;border-radius:50%;background:var(--a);color:var(--on);display:grid;place-items:center;font-size:17px;border:3px solid #fff}
+.card[data-k=biz][data-t=corp] .ph.im{background-size:70%}
+.card[data-t=corp] h3{margin-top:16px;font-size:32px}.card[data-t=corp] .role{color:var(--a);font-weight:700;opacity:1}
+.card[data-t=corp] .tg{border-left:3px solid var(--a);padding-left:12px;opacity:.75;margin-top:10px}
+.card[data-t=corp] .tn{display:flex;position:sticky;top:0;z-index:8;margin:20px -22px 0;padding:0 14px;background:#fffffff2;backdrop-filter:blur(10px);border-bottom:1px solid #e6e8f1;overflow-x:auto;scrollbar-width:none}
+.card[data-t=corp] .tn button{flex:none;padding:15px 13px 13px;border:0;border-bottom:3px solid transparent;background:none;color:#6c7088;font:700 13.5px 'Hanken Grotesk',system-ui,sans-serif;cursor:pointer;transition:.25s}
+.card[data-t=corp] .tn button.on{color:var(--a);border-color:var(--a)}
+.card[data-t=corp] ul.l1{grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.card[data-t=corp] ul.l1 li a{flex-direction:column;align-items:flex-start;gap:7px;padding:14px;background:#fff;border:1px solid #e3e6f1;border-radius:18px;min-height:108px;box-shadow:0 6px 18px #0b10200a}
+.card[data-t=corp] ul.l1 li a::before{content:attr(data-l);order:2;font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--a);font-weight:800}
+.card[data-t=corp] ul.l1 li a span{order:3;font-weight:700;font-size:14px;overflow-wrap:anywhere}
+.card[data-t=corp] ul.l1 li a:hover{border-color:var(--a);translate:0 -3px;box-shadow:0 14px 30px color-mix(in srgb,var(--a) 22%,transparent)}
+.card[data-t=corp] ul.l1 li.wide{grid-column:1/-1}
+.card[data-t=corp] ul.l2{grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.card[data-t=corp] ul.l2 li a{flex-direction:column;gap:7px;text-align:center;justify-content:center;padding:12px 6px;background:#fff;border:1px solid #e3e6f1;border-radius:16px;font-size:12px;font-weight:600}
+.card[data-t=corp] ul.l2 li a span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card[data-t=corp] ul.l2 li a:hover{background:var(--a);color:var(--on);border-color:var(--a);translate:0 -3px}
+.card[data-t=corp] ul.l2 li a:hover .ib{background:#ffffff33;color:inherit}
+.card[data-t=corp] .ctas .cta.gh{color:var(--a);border-color:var(--a)}
+.card[data-t=corp] .sx{background:#fff;border:1px solid #e7e9f3;border-top:3px solid var(--a);border-radius:18px;box-shadow:0 8px 24px #0b10200d}
+.card[data-t=corp] .sx h4{color:var(--a);opacity:1}
+.card[data-t=corp] .tl::before{background:color-mix(in srgb,var(--a) 28%,#fff)}.card[data-t=corp] .tl li::before{background:var(--a);box-shadow:0 0 0 4px color-mix(in srgb,var(--a) 18%,#fff)}
+.card[data-t=corp] .chips2 span{background:color-mix(in srgb,var(--a) 11%,#fff);color:var(--a)}
+.card[data-t=corp] .cpy{color:var(--a);border-color:color-mix(in srgb,var(--a) 40%,#fff);background:#fff}
+
+/* ============ 3. AURA: aurora, glass pills, chip cloud and a floating dock ============ */
+.card[data-t=aura]{--ib:#ffffff22;--ic:#fff;background:#08071c;color:#fff;align-items:center;text-align:center}
+.card[data-t=aura]::before{content:"";position:absolute;inset:-25% -20%;z-index:-1;background:radial-gradient(38% 30% at 22% 18%,color-mix(in srgb,var(--a) 95%,transparent),transparent 70%),radial-gradient(34% 28% at 82% 28%,#ff6a3dc8,transparent 70%),radial-gradient(40% 32% at 58% 84%,#2dd4bfa8,transparent 70%);filter:blur(26px);opacity:.85;animation:aur 16s ease-in-out infinite alternate}
+.card[data-t=aura]::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.5;background-image:radial-gradient(1.5px 1.5px at 14% 12%,#fff,transparent),radial-gradient(1px 1px at 78% 20%,#fff,transparent),radial-gradient(1.5px 1.5px at 40% 60%,#fff,transparent),radial-gradient(1px 1px at 90% 74%,#fff,transparent),radial-gradient(1px 1px at 22% 88%,#fff,transparent);animation:twinkle 5s ease-in-out infinite alternate}
+@keyframes aur{50%{transform:translate(6%,-3%) scale(1.08) rotate(3deg)}100%{transform:translate(-5%,5%) scale(1.14) rotate(-4deg)}}
+@keyframes twinkle{from{opacity:.25}to{opacity:.8}}
+@keyframes morph{50%{border-radius:42% 58% 38% 62%/58% 42% 58% 42%}100%{border-radius:55% 45% 62% 38%/42% 58% 42% 58%}}
+.card[data-t=aura] .ban{background:#ffffff1d;padding:6px 13px;border-radius:99px;border:1px solid #ffffff33;backdrop-filter:blur(8px)}.card[data-t=aura] .lg{display:none}
+.card[data-t=aura] .ph{width:158px;height:158px;font-size:60px;border-radius:62% 38% 58% 42%/52% 48% 52% 48%;box-shadow:0 0 0 5px #ffffff26,0 0 60px 10px var(--a);animation:morph 10s ease-in-out infinite alternate,pulse 4.5s ease-in-out infinite;margin:6px 0 26px}
+.vcard[data-t=aura]>.ph{animation:cin .75s cubic-bezier(.2,.8,.2,1) .1s backwards,morph 10s ease-in-out infinite alternate,pulse 4.5s ease-in-out infinite,float 6s ease-in-out .9s infinite}
+.card[data-k=biz][data-t=aura] .ph.im{background-size:58%}
+.card[data-t=aura] h3{background:linear-gradient(180deg,#fff 30%,#c9c0ff);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:34px}
+.card[data-t=aura] .bd2{align-self:center;background:#ffffff1f;border:1px solid #ffffff2e}
+.card[data-t=aura] ul.l1 li a{background:#ffffff14;border:1px solid #ffffff2a;border-radius:18px;padding:8px 12px;backdrop-filter:blur(10px)}
+.card[data-t=aura] ul.l1 li a::after{content:"\203A";margin-left:auto;opacity:.6;font-size:22px;line-height:1;transition:transform .3s}
+.card[data-t=aura] ul.l1 li a:hover{background:#ffffff26;border-color:#ffffff6e;box-shadow:0 0 30px color-mix(in srgb,var(--a) 75%,transparent);translate:0 -3px}.card[data-t=aura] ul.l1 li a:hover::after{transform:translateX(4px)}
+.card[data-t=aura] ul.l2{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:12px}
+.card[data-t=aura] ul.l2 li a{padding:7px 15px 7px 7px;border-radius:99px;background:#ffffff14;border:1px solid #ffffff2e;font-size:13px;backdrop-filter:blur(10px)}
+.card[data-t=aura] ul.l2 .ib{width:28px;height:28px;border-radius:50%}
+.card[data-t=aura] ul.l2 li a:hover{background:#ffffff28;translate:0 -3px;box-shadow:0 0 24px color-mix(in srgb,var(--a) 70%,transparent)}
+.card[data-t=aura] .tn{display:flex;order:99;position:sticky;bottom:14px;z-index:8;margin:26px auto 0;width:max-content;max-width:100%;gap:2px;padding:6px;border-radius:24px;background:#ffffff1c;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid #ffffff33;box-shadow:0 20px 44px #000a;overflow-x:auto;scrollbar-width:none}
+.card[data-t=aura] .tn button{flex:none;border:0;background:none;color:#fff;font:600 12.5px 'Hanken Grotesk',system-ui,sans-serif;padding:10px 14px;border-radius:18px;cursor:pointer;transition:transform .3s cubic-bezier(.3,1.6,.5,1),background .3s}
+.card[data-t=aura] .tn button:hover{transform:translateY(-5px) scale(1.1)}.card[data-t=aura] .tn button.on{background:#fff;color:#120e33}
+.card[data-t=aura] .pw{order:100}
+.card[data-t=aura] .cta{background:#fff;color:#120e33}.card[data-t=aura] .ctas .cta.gh{background:#ffffff14;color:#fff;border:1.5px solid #ffffff44}
+.card[data-t=aura] .nt{background:#ffffff1c;border:1px solid #ffffff2e}
+.card[data-t=aura] .sx{background:#ffffff10;border:1px solid #ffffff24;backdrop-filter:blur(14px)}
+.card[data-t=aura] .cover{margin:0 0 20px;width:100%;border-radius:24px;aspect-ratio:16/8;box-shadow:0 0 0 1px #ffffff2e,0 18px 44px #0008}
+
+/* ============ 4. MONO GRID: ticker, banner photo, labelled tiles, hard shadows ============ */
+.card[data-t=mono]{--ib:#fff;--ic:#0b0b0b;padding-top:62px;background:linear-gradient(#0b0b0b12 1px,transparent 1px) 0 0/22px 22px,linear-gradient(90deg,#0b0b0b12 1px,transparent 1px) 0 0/22px 22px,#eceef3;color:#0b0b0b;border:3px solid #0b0b0b;border-radius:16px}
+.card[data-t=mono]::before{content:var(--mq);position:absolute;top:0;left:0;height:34px;line-height:34px;white-space:nowrap;background:#0b0b0b;color:var(--a);font:800 12.5px/34px 'Plus Jakarta Sans',system-ui,sans-serif;letter-spacing:.14em;animation:marq 26s linear infinite;z-index:3;pointer-events:none}
+@keyframes marq{to{translate:-50% 0}}
+.card[data-t=mono] .ban{border-bottom:3px solid #0b0b0b;padding-bottom:12px;font-weight:800}.card[data-t=mono] .lg{border-radius:0;background:#0b0b0b;color:#fff}
+.card[data-t=mono] .ph{border-radius:0;width:100%;height:220px;font-size:80px;background:repeating-linear-gradient(45deg,#0000001f 0 7px,transparent 7px 14px),var(--a);color:var(--on);border:3px solid #0b0b0b;box-shadow:7px 7px 0 #0b0b0b;margin:0 0 28px}
+.card[data-t=mono] .ph.im{background-color:#fff;background-size:cover;background-repeat:no-repeat;background-position:center}
+.card[data-k=biz][data-t=mono] .ph.im{background-size:contain}
+.card[data-t=mono] h3{font-size:42px;line-height:.94;text-transform:uppercase;align-self:flex-start;background:linear-gradient(transparent 60%,var(--a) 60%);padding-right:6px}
+.card[data-t=mono] .role{align-self:flex-start;background:#0b0b0b;color:#fff;padding:3px 10px;margin-top:12px;font-weight:700;font-size:12.5px;opacity:1}
+.card[data-t=mono] .bd2{border:2px solid #0b0b0b;background:#fff;border-radius:0}
+.card[data-t=mono] ul.l1{grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+.card[data-t=mono] ul.l1 li a{flex-direction:column;align-items:flex-start;gap:9px;border:3px solid #0b0b0b;background:#fff;padding:12px 12px 14px;font-size:13px;min-height:104px;font-weight:700;border-radius:0;box-shadow:0 0 0 #0b0b0b}
+.card[data-t=mono] ul.l1 li a::before{content:attr(data-l);order:-1;width:100%;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;border-bottom:2px solid #0b0b0b;padding-bottom:5px}
+.card[data-t=mono] ul.l1 li a:hover{translate:-3px -3px;box-shadow:6px 6px 0 #0b0b0b;background:var(--a);color:var(--on)}
+.card[data-t=mono] ul.l1 li.wide{grid-column:1/-1}.card[data-t=mono] .ib{width:24px;height:24px}
+.card[data-t=mono] ul.l2{grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.card[data-t=mono] ul.l2 li a{flex-direction:column;justify-content:center;text-align:center;gap:6px;border:3px solid #0b0b0b;background:#fff;padding:10px 4px;font-size:11px;min-height:82px;font-weight:700;border-radius:0}
+.card[data-t=mono] ul.l2 li a span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card[data-t=mono] ul.l2 li a:hover{translate:-2px -2px;box-shadow:4px 4px 0 #0b0b0b;background:var(--a);color:var(--on)}
+.card[data-t=mono] .cta{background:#0b0b0b;color:#fff;border-radius:0;border:3px solid #0b0b0b;box-shadow:4px 4px 0 var(--a)}.card[data-t=mono] .cta:hover{translate:-2px -2px;box-shadow:6px 6px 0 var(--a)}
+.card[data-t=mono] .ctas .cta.gh{background:#fff;color:#0b0b0b;border:3px solid #0b0b0b;box-shadow:4px 4px 0 #0b0b0b}
+.card[data-t=mono] .nt{background:var(--a);color:var(--on);border:3px solid #0b0b0b;border-radius:0}
+.card[data-t=mono] .sx{background:#fff;border:3px solid #0b0b0b;border-radius:0;box-shadow:6px 6px 0 #0b0b0b}
+.card[data-t=mono] .sx h4{display:inline-block;background:#0b0b0b;color:#fff;padding:3px 9px;opacity:1}
+.card[data-t=mono] .tl::before{width:3px;background:#0b0b0b}.card[data-t=mono] .tl li::before{border-radius:0;background:var(--a);border:2px solid #0b0b0b;box-shadow:none}
+.card[data-t=mono] .chips2 span{border:2px solid #0b0b0b;border-radius:0;background:#fff}.card[data-t=mono] .chips2 span:hover{background:var(--a);color:var(--on)}
+.card[data-t=mono] .sv,.card[data-t=mono] .hr{border-color:#0b0b0b}.card[data-t=mono] .gl img{border:2px solid #0b0b0b;border-radius:0}
+.card[data-t=mono] .cpy{border:2px solid #0b0b0b;border-radius:0;background:#fff}
+.card[data-t=mono] .cover{margin:-28px -22px 22px;border-bottom:3px solid #0b0b0b}
+
+/* ============ 5. STUDIO: poster type, rotating sticker, giant bars and a pill menu ============ */
+.card[data-t=studio]{--ib:var(--on);--ic:var(--a);background:var(--a);color:var(--on)}
+.card[data-t=studio]::before{content:"";position:absolute;right:-110px;top:-90px;width:340px;height:340px;border-radius:50%;background:color-mix(in srgb,var(--on) 14%,transparent);z-index:-1;animation:floaty 9s ease-in-out infinite alternate}
+.card[data-t=studio]::after{content:"";position:absolute;left:-70px;top:360px;width:240px;height:240px;border-radius:50%;background:color-mix(in srgb,#000 13%,transparent);z-index:-1;animation:floaty 11s ease-in-out infinite alternate-reverse}
+.card[data-t=studio] .lg{background:var(--on);color:var(--a)}
+.card[data-t=studio] .ph{align-self:flex-end;margin:6px 0 -112px;width:150px;height:150px;font-size:60px;border-radius:42px 42px 8px 42px;rotate:6deg;border:5px solid var(--on);box-shadow:0 18px 38px #0003;transition:rotate .4s cubic-bezier(.3,1.6,.5,1)}
+.card[data-t=studio] .ph:hover{rotate:-2deg}
+.card[data-k=biz][data-t=studio] .ph.im{background-size:68%}
+.card[data-t=studio] h3{font-size:66px;line-height:.88;margin-top:0;max-width:6.4ch;letter-spacing:-.05em}
+.card[data-t=studio] .role{display:inline-block;align-self:flex-start;margin-top:18px;background:var(--on);color:var(--a);padding:6px 15px;border-radius:99px;font-weight:800;font-size:13px;opacity:1;rotate:-2deg}
+.card[data-t=studio] .tg{opacity:.9;margin-top:12px;font-size:15px;max-width:30ch}
+.card[data-t=studio] .bd2{background:#ffffff33;color:inherit;margin-top:12px;animation:wob 4s ease-in-out infinite}
+@keyframes wob{50%{rotate:2deg}}
+.card[data-t=studio] .tn{display:flex;position:sticky;top:12px;z-index:8;margin:26px 0 0;padding:5px;background:#111;border-radius:99px;width:max-content;max-width:100%;overflow-x:auto;box-shadow:0 12px 30px #0004;scrollbar-width:none}
+.card[data-t=studio] .tn button{flex:none;border:0;background:none;color:#fff;font:700 12.5px 'Hanken Grotesk',system-ui,sans-serif;padding:9px 14px;border-radius:99px;cursor:pointer;transition:.3s}
+.card[data-t=studio] .tn button.on{background:var(--on);color:var(--a)}
+.card[data-t=studio] ul.l1{gap:10px;margin-top:20px}
+.card[data-t=studio] ul.l1 li a{flex-direction:row-reverse;justify-content:space-between;padding:18px 18px 18px 20px;border-radius:22px;font-size:17px;font-weight:800;letter-spacing:-.01em;background:var(--on);color:var(--a)}
+.card[data-t=studio] ul.l1 li:nth-child(even) a{background:#111;color:#fff}.card[data-t=studio] ul.l1 li:nth-child(even) .ib{background:var(--on);color:#111}
+.card[data-t=studio] ul.l1 .ib{border-radius:50%;background:var(--a);color:var(--on)}
+.card[data-t=studio] ul.l1 li a:hover{translate:8px 0;rotate:-.6deg}
+.card[data-t=studio] ul.l2{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.card[data-t=studio] ul.l2 li a{padding:8px 15px 8px 8px;border-radius:99px;background:#ffffff26;border:1.5px solid #ffffff66;font-size:13px;font-weight:700}
+.card[data-t=studio] ul.l2 .ib{border-radius:50%;width:28px;height:28px;background:var(--on);color:var(--a)}
+.card[data-t=studio] ul.l2 li a:hover{background:var(--on);color:var(--a);translate:0 -3px}
+.card[data-t=studio] .cta{background:#111;color:#fff;border-radius:99px}.card[data-t=studio] .ctas .cta.gh{background:transparent;color:var(--on);border:1.5px solid var(--on)}
+.card[data-t=studio] .nt{background:var(--on);color:var(--a)}
+.card[data-t=studio] .sx{background:var(--on);color:#14121f;border:0;border-radius:28px;box-shadow:0 14px 34px #0002;padding:20px}
+.card[data-t=studio] .sx h4{color:var(--a);opacity:1;font:800 28px/1 'Plus Jakarta Sans',system-ui,sans-serif;letter-spacing:-.04em;text-transform:none;margin-bottom:16px}
+.card[data-t=studio] .tl::before{background:color-mix(in srgb,var(--a) 30%,transparent)}.card[data-t=studio] .tl li::before{background:var(--a);box-shadow:0 0 0 4px color-mix(in srgb,var(--a) 20%,transparent)}
+.card[data-t=studio] .chips2 span{background:color-mix(in srgb,var(--a) 14%,transparent);color:var(--a)}.card[data-t=studio] .cpy{color:var(--a)}
+.card[data-t=studio] .cover{margin:2px 0 24px;width:100%;aspect-ratio:16/8;border:5px solid var(--on);border-radius:6px;rotate:-1.4deg;box-shadow:0 16px 36px #0003}
+
+/* ============ 6. BENTO: a mosaic of tiles of different sizes ============ */
+.card[data-t=bento]{--px:16px;--pt:16px;--ib:var(--a);--ic:var(--on);background:color-mix(in srgb,var(--a) 11%,#f3f1ff);color:#17132E;padding:16px;border-radius:30px}
+.card[data-t=bento] .ban{background:#fff;padding:8px 13px;border-radius:16px;align-self:flex-start;box-shadow:0 4px 14px #17132e0f}
+.card[data-t=bento] .ph{border-radius:30px;width:124px;height:124px;font-size:44px;color:var(--a);background-color:#fff;box-shadow:0 10px 26px #17132e1a}
+.card[data-k=biz][data-t=bento] .ph.im{background-size:72%}
+.card[data-t=bento]:has(.ph){display:grid;grid-template-columns:auto 1fr;column-gap:14px;grid-auto-flow:row dense;align-content:start}
+.card[data-t=bento]:has(.ph)>*{grid-column:1/-1}
+.card[data-t=bento]:has(.ph)>.ph{grid-column:1;grid-row:span 4;align-self:start;margin:0 0 4px}
+.card[data-t=bento]:has(.ph)>:is(h3,.role,.bd2,.tg){grid-column:2;align-self:start}
+.card[data-t=bento]:has(.ph)>h3{font-size:27px;margin-top:6px}.card[data-t=bento]:has(.ph)>.bd2{margin-top:8px}
+.card[data-t=bento] .role{opacity:.8}
+.card[data-t=bento] ul.l1{grid-template-columns:repeat(4,1fr);gap:9px;margin-top:20px}
+.card[data-t=bento] ul.l1 li{grid-column:span 2}.card[data-t=bento] ul.l1 li:nth-child(1),.card[data-t=bento] ul.l1 li:nth-child(4),.card[data-t=bento] ul.l1 li.wide{grid-column:span 4}
+.card[data-t=bento] ul.l1 li a{flex-direction:column;align-items:flex-start;background:#fff;border-radius:24px;padding:14px;min-height:92px;font-size:13px;gap:9px;box-shadow:0 4px 14px #17132e0d;height:100%}
+.card[data-t=bento] ul.l1 li:nth-child(1) a{background:linear-gradient(135deg,var(--a),color-mix(in srgb,var(--a) 55%,#17132E));color:var(--on);min-height:84px;flex-direction:row;align-items:center;gap:12px;font-size:15px;font-weight:700}
+.card[data-t=bento] ul.l1 li:nth-child(1) .ib{background:#ffffff33;color:inherit}
+.card[data-t=bento] ul.l1 li:nth-child(4n+2) a{background:color-mix(in srgb,var(--a) 15%,#fff)}.card[data-t=bento] ul.l1 li:nth-child(4n+3) a{background:#17132E;color:#fff}.card[data-t=bento] ul.l1 li:nth-child(4n+3) .ib{background:#fff;color:#17132E}
+.card[data-t=bento] ul.l2{grid-template-columns:repeat(3,1fr);gap:9px;margin-top:9px}
+.card[data-t=bento] ul.l2 li a{flex-direction:column;justify-content:center;text-align:center;gap:8px;background:#fff;border-radius:22px;padding:14px 6px;min-height:92px;font-size:11.5px;font-weight:600;box-shadow:0 4px 14px #17132e0d}
+.card[data-t=bento] ul.l2 li a span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card[data-t=bento] ul.l2 li:nth-child(3n+2) a{background:color-mix(in srgb,var(--a) 15%,#fff)}
+.card[data-t=bento] li a:hover{translate:0 -4px;box-shadow:0 16px 30px color-mix(in srgb,var(--a) 26%,transparent)}
+.vcard[data-t=bento] ul>li{animation:pop .6s cubic-bezier(.3,1.4,.5,1) backwards;animation-delay:calc(.3s + var(--i,0)*.07s)}
+.card[data-t=bento] .cta{border-radius:22px;background:#17132E;color:#fff}.card[data-t=bento] .ctas .cta.gh{background:#fff;color:#17132E;border-color:transparent}
+.card[data-t=bento] .nt{background:#fff;border-radius:18px}
+.card[data-t=bento] .sx{background:#fff;border:0;border-radius:26px;box-shadow:0 4px 14px #17132e0d}
+.card[data-t=bento] .sx h4{color:var(--a);opacity:1}
+.card[data-t=bento] .sv{background:color-mix(in srgb,var(--a) 8%,#fff);border:0;border-radius:16px;padding:12px 14px;margin-top:8px}.card[data-t=bento] .sv:first-of-type{padding-top:12px}
+.card[data-t=bento] .tl::before{background:color-mix(in srgb,var(--a) 25%,#fff)}.card[data-t=bento] .tl li::before{background:var(--a);box-shadow:0 0 0 4px color-mix(in srgb,var(--a) 18%,#fff)}
+.card[data-t=bento] .chips2 span{background:color-mix(in srgb,var(--a) 13%,#fff);color:var(--a)}.card[data-t=bento] .cpy{background:color-mix(in srgb,var(--a) 13%,#fff);color:var(--a);border:0}
+.card[data-t=bento] .cover{margin:0 0 12px;width:100%;border-radius:26px;aspect-ratio:16/8}
+
+/* ============ 7. BOARDING PASS: it prints in, ticket stubs, passport photo, approved stamp ============ */
+.card[data-t=ticket]{--ib:color-mix(in srgb,var(--a) 12%,#fff);--ic:var(--a);background:#fff;color:#14122a;border-radius:22px}
+.card[data-t=ticket]::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:var(--a);z-index:2}
+.vcard[data-t=ticket]{animation:print 1.3s cubic-bezier(.2,.8,.2,1) backwards}
+@keyframes print{from{clip-path:inset(0 0 100% 0)}}@keyframes stamp{from{opacity:0;scale:2.4}}
+.card[data-t=ticket] .ban{margin:0 -22px 20px;padding:18px 22px 14px;background:var(--a);color:var(--on)}.card[data-t=ticket] .ban:first-child{margin-top:-26px;padding-top:22px}
+.card[data-t=ticket] .lg{background:var(--on);color:var(--a)}
+.card[data-t=ticket] .ban::after{content:"BOARDING PASS";margin-left:auto;font-size:9.5px;letter-spacing:.2em;opacity:.85}
+.card[data-t=ticket]:has(.ph){display:grid;grid-template-columns:1fr auto;column-gap:16px;grid-auto-flow:row dense;align-content:start}
+.card[data-t=ticket]:has(.ph)>*{grid-column:1/-1}
+.card[data-t=ticket]:has(.ph)>.ph{grid-column:2;grid-row:span 4;width:112px;height:140px;margin:0;border-radius:8px;border:2px solid #14122a;box-shadow:5px 5px 0 var(--a);align-self:start;font-size:44px}
+.card[data-t=ticket]:has(.ph)>:is(h3,.role,.bd2,.tg){grid-column:1;align-self:start}
+.card[data-t=ticket] .ph::after{content:"APPROVED";position:absolute;left:50%;top:64%;translate:-50% 0;rotate:-14deg;border:2px solid #d9361f;color:#d9361f;font:800 9.5px/1 'Hanken Grotesk',system-ui,sans-serif;letter-spacing:.12em;padding:3px 5px;background:#ffffffc0;animation:stamp .5s cubic-bezier(.3,1.6,.5,1) 1.2s backwards}
+.card[data-k=biz][data-t=ticket] .ph.im{background-size:76%}
+.card[data-t=ticket] h3{text-transform:uppercase;font-size:27px;letter-spacing:-.02em}
+.card[data-t=ticket] h3::before{content:"PASSENGER";display:block;font:700 9.5px 'Hanken Grotesk',system-ui,sans-serif;letter-spacing:.2em;color:var(--a);margin-bottom:5px}
+.card[data-t=ticket] .role::before{content:"ROLE   ";font:700 9.5px 'Hanken Grotesk',system-ui,sans-serif;letter-spacing:.2em;color:var(--a);margin-right:8px}
+.card[data-t=ticket] ul.l1{position:relative;margin-top:28px;padding-top:24px;border-top:2px dashed #d6d2ea;gap:10px}
+.card[data-t=ticket] ul.l1::before,.card[data-t=ticket] ul.l1::after{content:"";position:absolute;top:-14px;width:26px;height:26px;border-radius:50%;background:var(--notch)}
+.card[data-t=ticket] ul.l1::before{left:-35px}.card[data-t=ticket] ul.l1::after{right:-35px}
+.card[data-t=ticket] ul.l1 li a{padding:0;gap:0;border:1.5px solid #e4e0f2;border-radius:14px;overflow:hidden;background:#fff;align-items:stretch;min-height:56px;font-size:14.5px}
+.card[data-t=ticket] ul.l1 .ib{width:58px;height:auto;min-height:54px;border-radius:0;border-right:2px dashed #d6d2ea;background:color-mix(in srgb,var(--a) 9%,#fff);flex:none}
+.card[data-t=ticket] ul.l1 li a span{padding:0 14px;align-self:center;font-weight:600;flex:1;min-width:0;overflow-wrap:anywhere}
+.card[data-t=ticket] ul.l1 li a::after{content:attr(data-c);align-self:center;padding:0 14px 0 0;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--a);font-weight:800}
+.card[data-t=ticket] ul.l1 li a:hover{translate:4px 0;box-shadow:-5px 5px 0 var(--a)}
+.card[data-t=ticket] ul.l2{grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.card[data-t=ticket] ul.l2 li a{flex-direction:column;justify-content:center;text-align:center;gap:6px;padding:12px 4px;border:1.5px dashed #d6d2ea;border-radius:14px;font-size:11.5px;font-weight:600;background:#faf9ff}
+.card[data-t=ticket] ul.l2 li a span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card[data-t=ticket] ul.l2 li a:hover{border-style:solid;border-color:var(--a);translate:0 -3px}
+.card[data-t=ticket] .cta{border-radius:10px}.card[data-t=ticket] .ctas .cta.gh{color:var(--a);border:1.5px solid var(--a)}
+.card[data-t=ticket] .nt{background:color-mix(in srgb,var(--a) 10%,#fff);color:var(--a);margin-top:6px}
+.card[data-t=ticket] .sx{background:#faf9ff;border:1.5px dashed #d6d2ea;border-radius:14px}
+.card[data-t=ticket] .sx h4{color:var(--a);opacity:1}.card[data-t=ticket] .sx h4::before{content:"\2708\FE0E  ";letter-spacing:0}
+.card[data-t=ticket] .tl::before{background:#d6d2ea}.card[data-t=ticket] .tl li::before{background:var(--a);box-shadow:0 0 0 4px color-mix(in srgb,var(--a) 16%,#fff)}
+.card[data-t=ticket] .chips2 span{background:color-mix(in srgb,var(--a) 10%,#fff);color:var(--a)}.card[data-t=ticket] .cpy{color:var(--a)}
+.card[data-t=ticket] .pw{font-size:0;height:46px;opacity:1;position:relative;overflow:hidden;margin-top:18px;background:repeating-linear-gradient(90deg,#14122a 0 2px,#fff 2px 5px,#14122a 5px 6px,#fff 6px 10px,#14122a 10px 13px,#fff 13px 15px)}
+.card[data-t=ticket] .pw::after{content:"";position:absolute;top:0;bottom:0;width:3px;background:#ff3b5c;box-shadow:0 0 12px #ff3b5c;animation:scan 3.2s ease-in-out infinite alternate}
+@keyframes scan{from{left:0}to{left:calc(100% - 3px)}}
+.card[data-t=ticket] .cover{margin-bottom:0}
+
+/* ============ 8. TERMINAL: tabs, typed name, shell commands ============ */
+.card[data-t=term]{--ib:transparent;--ic:var(--a);background:repeating-linear-gradient(0deg,#ffffff07 0 1px,transparent 1px 3px),radial-gradient(120% 60% at 50% 0%,#101a36,#080d1a 70%);color:#cfe2ff;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;border-radius:18px;padding-top:54px}
+.card[data-t=term]::before{content:"";position:absolute;left:16px;top:17px;width:54px;height:10px;background:radial-gradient(circle,#ff5f57 4.5px,transparent 5px) 0 0/18px 10px,radial-gradient(circle,#febc2e 4.5px,transparent 5px) 18px 0/18px 10px,radial-gradient(circle,#28c840 4.5px,transparent 5px) 36px 0/18px 10px;background-repeat:no-repeat;z-index:9}
+.card[data-t=term]::after{content:"~/lazycard";position:absolute;top:13px;left:0;right:0;text-align:center;font-size:11.5px;color:#6f86ad;z-index:9}
+.card[data-t=term] *{font-family:inherit}
+.card[data-t=term] .lg{border-radius:4px}.card[data-t=term] .ban{color:#9fb6dd}
+.card[data-t=term] .ph{width:128px;height:128px;border-radius:2px;margin-bottom:44px;overflow:visible;border:1px solid var(--a);font-size:48px;box-shadow:0 0 28px color-mix(in srgb,var(--a) 38%,transparent)}
+.card[data-t=term] .ph::before{content:"";position:absolute;inset:-8px;border:1px dashed color-mix(in srgb,var(--a) 45%,transparent);pointer-events:none}
+.card[data-t=term] .ph::after{content:"avatar.png";position:absolute;left:-8px;bottom:-30px;font-size:10.5px;color:#6f86ad}
+.card[data-t=term] h3{font-size:25px;letter-spacing:0;font-weight:700;color:#fff}
+.card[data-t=term] h3::before,.card[data-t=term] .role::before{content:"$ whoami";display:block;color:var(--a);font-size:12px;font-weight:500;margin-bottom:5px}.card[data-t=term] .role::before{content:"$ cat role";margin-top:14px}
+.card[data-t=term] .role::after{content:"\258D";margin-left:4px;color:var(--a);animation:blink 1s steps(1) infinite}
+.card[data-t=term] .tg::before{content:"> ";color:var(--a)}
+.vcard[data-t=term] h3{overflow:hidden;white-space:nowrap;width:calc(var(--n,10)*1ch + 2px);max-width:100%;animation:typing 1.4s steps(var(--n,10)) .5s backwards,cin .75s backwards}
+@keyframes typing{from{width:0}}
+.card[data-t=term] .tn{display:flex;position:sticky;top:0;z-index:8;margin:22px -22px 0;background:#070b16f2;border-top:1px solid #ffffff14;border-bottom:1px solid #ffffff18;overflow-x:auto;scrollbar-width:none}
+.card[data-t=term] .tn button{flex:none;padding:11px 15px;border:0;border-right:1px solid #ffffff12;background:none;color:#7f93b8;font:12.5px ui-monospace,Menlo,monospace;cursor:pointer;transition:.2s}
+.card[data-t=term] .tn button::before{content:"./";opacity:.6}
+.card[data-t=term] .tn button.on{background:#0e1730;color:var(--a);box-shadow:inset 0 2px 0 var(--a)}
+.card[data-t=term] ul.l1::before,.card[data-t=term] ul.l2::before{content:"$ ls links/";display:block;grid-column:1/-1;color:var(--a);font-size:12px;margin-bottom:2px;width:100%}
+.card[data-t=term] ul.l2::before{content:"$ ls social/"}
+.card[data-t=term] ul.l1{gap:4px}
+.card[data-t=term] ul.l1 li a{padding:9px 10px;border-radius:6px;font-size:13.5px;gap:10px}
+.card[data-t=term] ul.l1 li a::before{content:"$ " attr(data-c);color:var(--a);min-width:62px;text-align:left}
+.card[data-t=term] ul.l1 .ib{display:none}
+.card[data-t=term] ul.l1 li a::after{content:"\21B5";margin-left:auto;color:#6f86ad;transition:transform .25s}
+.card[data-t=term] ul.l1 li a:hover{background:#ffffff0f;color:var(--a);translate:4px 0}.card[data-t=term] ul.l1 li a:hover::after{transform:translateX(3px)}
+.card[data-t=term] ul.l2{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:16px}
+.card[data-t=term] ul.l2 li a{padding:4px 2px;font-size:13px;color:var(--a);gap:0}
+.card[data-t=term] ul.l2 li a::before{content:"[ ";opacity:.6}.card[data-t=term] ul.l2 li a::after{content:" ]";opacity:.6}
+.card[data-t=term] ul.l2 .ib{display:none}.card[data-t=term] ul.l2 li a:hover{background:#ffffff0f;translate:0 -2px}
+.card[data-t=term] .cta{background:transparent;border:1.5px solid var(--a);color:var(--a);border-radius:6px}.card[data-t=term] .cta:hover{background:var(--a);color:#06101e}
+.card[data-t=term] .ctas .cta.gh{border-color:#6f86ad;color:#9fb6dd}
+.card[data-t=term] .nt{background:#ffffff0c;border:1px dashed var(--a);color:var(--a);border-radius:6px;text-align:left}
+.card[data-t=term] .sx{background:#ffffff08;border:0;border-left:2px solid var(--a);border-radius:0 12px 12px 0}
+.card[data-t=term] .sx h4{color:var(--a);text-transform:none;letter-spacing:0;opacity:1;font:600 13px ui-monospace,Menlo,monospace}.card[data-t=term] .sx h4::before{content:"// "}
+.card[data-t=term] .tl::before{background:#ffffff26}.card[data-t=term] .tl li::before{background:var(--a);border-radius:2px;box-shadow:0 0 12px color-mix(in srgb,var(--a) 60%,transparent)}
+.card[data-t=term] .chips2 span{border-radius:4px;background:transparent;border:1px solid color-mix(in srgb,var(--a) 50%,transparent);color:var(--a)}.card[data-t=term] .cpy{border-radius:4px;color:var(--a)}
+.card[data-t=term] .pw{color:#6f86ad}.card[data-t=term] .gl img{border-radius:3px}
+.card[data-t=term] .cover{margin:0 0 16px;width:100%;border:1px solid color-mix(in srgb,var(--a) 55%,transparent);border-radius:6px;aspect-ratio:16/8;position:relative}
+.card[data-t=term] .cover::after{content:"cover.jpg";position:absolute;right:8px;bottom:6px;font-size:10.5px;color:#fff;background:#000a;padding:2px 7px;border-radius:3px}
+
+/* ============ 9. SUNSET: rising sun behind an arch window, polaroid cards, waves ============ */
+.card[data-t=sun]{--ib:#ffffff30;--ic:#fff;--g:#ffb36b;color:#fff;align-items:center;text-align:center;background:radial-gradient(60% 30% at 50% 28%,#ffb36b44,transparent 70%),linear-gradient(180deg,#25134f 0%,#7a2a98 28%,#ff5d7d 60%,#ff9a62 84%,#ffc27a 100%)}
+.card[data-t=sun]::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(1.5px 1.5px at 18px 28px,#fff,transparent),radial-gradient(1.5px 1.5px at 92px 70px,#fff,transparent),radial-gradient(1px 1px at 160px 22px,#fff,transparent),radial-gradient(1.5px 1.5px at 250px 54px,#fff,transparent),radial-gradient(1px 1px at 310px 96px,#fff,transparent),radial-gradient(1px 1px at 52px 120px,#fff,transparent);background-repeat:no-repeat;animation:twinkle 4s ease-in-out infinite alternate}
+.card[data-t=sun]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:110px;z-index:-1;pointer-events:none;background:radial-gradient(140% 100% at 20% 100%,#ffffff2e 49%,transparent 50%),radial-gradient(140% 100% at 80% 100%,#ffffff1c 49%,transparent 50%);background-size:200% 100%;animation:wave 10s linear infinite}
+@keyframes wave{to{background-position:200% 0}}@keyframes sunrise{from{transform:translateY(60px) scale(.88);opacity:0}}
+.card[data-t=sun] .ban{margin-bottom:6px}.card[data-t=sun] .lg{background:#fff;color:#d6336c}
+.card[data-t=sun] .ph{width:150px;height:188px;font-size:64px;border-radius:75px 75px 18px 18px;margin:44px 0 56px;box-shadow:0 0 0 4px #ffffff66,0 20px 40px #7a2a9866}
+.card[data-t=sun] .ph::before{content:"";position:absolute;inset:-56px -66px -30px;border-radius:50%;z-index:-1;background:linear-gradient(#ffe7a3,#ff8f6b 70%);box-shadow:0 0 100px #ffb36bb0;-webkit-mask-image:linear-gradient(#000 0 52%,transparent 52% 58%,#000 58% 66%,transparent 66% 73%,#000 73% 83%,transparent 83% 92%,#000 92%);mask-image:linear-gradient(#000 0 52%,transparent 52% 58%,#000 58% 66%,transparent 66% 73%,#000 73% 83%,transparent 83% 92%,#000 92%);animation:sunrise 1.8s cubic-bezier(.2,.8,.2,1) both}
+.card[data-k=biz][data-t=sun] .ph.im{background-size:66%}
+.card[data-t=sun] h3{font-size:40px;margin-top:0;text-shadow:0 4px 24px #7a2a9866}
+.card[data-t=sun] .bd2{align-self:center;background:#ffffff2e}
+.card[data-t=sun] ul.l1 li a{background:#ffffff26;border:1px solid #ffffff3a;border-radius:99px;padding:6px 18px 6px 6px;backdrop-filter:blur(8px);font-weight:600}
+.card[data-t=sun] ul.l1 li a::after{content:"\2192";margin-left:auto;transition:transform .3s}.card[data-t=sun] ul.l1 li a:hover::after{transform:translateX(5px)}
+.card[data-t=sun] .ib{border-radius:50%}
+.card[data-t=sun] ul.l1 li a:hover{background:#ffffff42;scale:1.03;box-shadow:0 10px 30px #ff5d7d77}
+.card[data-t=sun] ul.l2{grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.card[data-t=sun] ul.l2 li a{flex-direction:column;align-items:center;gap:9px;padding:9px 9px 12px;background:#fff;color:#7a2a98;border-radius:6px;box-shadow:0 16px 30px #0004;font-weight:700;font-size:12.5px}
+.card[data-t=sun] ul.l2 .ib{width:100%;height:58px;border-radius:3px;background:linear-gradient(135deg,#ff9a62,#ff5d7d);color:#fff}
+.card[data-t=sun] ul.l2 li:nth-child(odd) a{rotate:-2.2deg}.card[data-t=sun] ul.l2 li:nth-child(even) a{rotate:2.2deg}
+.card[data-t=sun] ul.l2 li a span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card[data-t=sun] ul.l2 li a:hover{rotate:0deg;scale:1.05}
+.card[data-t=sun] .cta{background:#fff;color:#b8245a;border-radius:99px}.card[data-t=sun] .ctas .cta.gh{background:transparent;color:#fff;border:1.5px solid #ffffffaa}
+.card[data-t=sun] .nt{background:#ffffff2a}
+.card[data-t=sun] .sx{background:#ffffff1f;border:1px solid #ffffff33;backdrop-filter:blur(10px)}
+.card[data-t=sun] .gl img{border-radius:6px;border:4px solid #fff;box-shadow:0 10px 22px #0003}
+.card[data-t=sun] .cover{margin-bottom:-14px;clip-path:ellipse(78% 100% at 50% 0)}
+
+/* ============ phone preview as a proper full-screen sheet ============ */
+@media(max-width:1000px){
+ .pv{position:fixed;inset:0;z-index:100;display:none;flex-direction:column;align-items:center;justify-content:flex-start;gap:10px;background:var(--bg);padding:max(12px,env(safe-area-inset-top)) 16px max(14px,env(safe-area-inset-bottom));height:100dvh;overflow:hidden;overscroll-behavior:none;touch-action:none}
+ .pv.open{display:flex}
+ .pv .x{display:block;position:static;align-self:stretch;width:auto}
+ .pv .pvh{flex:none}.pv .phone{flex:1 1 auto;min-height:0;width:min(360px,100%);display:flex;padding:8px;border-radius:38px}
+ .pv .scr{flex:1;height:auto;min-height:0;border-radius:30px;touch-action:pan-y}
+ .pv #shuf,.pv small{display:none}
+}
+
+/* menus: centered when they fit, scrollable from the left when they do not */
+.card .tn button:first-child{margin-left:auto}.card .tn button:last-child{margin-right:auto}
+.card[data-t=exec] .tn,.card[data-t=aura] .tn{justify-content:flex-start}
+.card[data-t=exec] .tn button{padding:9px 10px;letter-spacing:.12em}
+.card[data-t=studio] .tn{justify-content:flex-start;margin-right:-22px;border-radius:99px 0 0 99px;padding-right:22px;width:auto;max-width:none}
+.card[data-t=studio] .tn button:last-child{margin-right:0}
+/* Studio: the sticker should not cover the name */
+.card[data-t=studio] h3{font-size:58px;max-width:5.6ch}
+.card[data-t=studio] .ph{width:138px;height:138px;margin:6px 0 -104px}
+/* Mono: first contact tile is wide so the grid starts clean */
+.card[data-t=mono] ul.l1 li:nth-child(1){grid-column:1/-1}
+/* Bento: tiles keep their label small and tidy */
+.card[data-t=bento] ul.l1 li:nth-child(2) a,.card[data-t=bento] ul.l1 li:nth-child(3) a{min-height:84px}
+/* Sunset: keep the sun behind the photo (a floating photo would hide the sun's layer) */
+.vcard[data-t=sun]>.ph{animation:cin .75s cubic-bezier(.2,.8,.2,1) .1s backwards}
+.card[data-t=sun] .ph::before{inset:-48px -58px -24px}
+.card[data-t=sun] .ph{margin:50px 0 52px}
+.card[data-t=bento] ul.l1 li{grid-column:span 2}
+.card[data-t=bento] ul.l1 li:nth-child(3n+1),.card[data-t=bento] ul.l1 li.wide,.card[data-t=bento] ul.l1 li:nth-child(3n+2):last-child{grid-column:span 4}
+.card[data-t=sun] .ph{transform:none;margin:64px 0 54px}
+.card[data-t=sun] .cover{margin-bottom:10px}
+.card[data-t=corp] ul.l1 li a span{font-size:13px;overflow-wrap:break-word;word-break:normal}
+.card[data-t=corp] ul.l2,.card[data-t=mono] ul.l2,.card[data-t=bento] ul.l2,.card[data-t=ticket] ul.l2{grid-template-columns:repeat(auto-fit,minmax(96px,1fr))}

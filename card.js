@@ -41,41 +41,49 @@ const chipsOf=v=>String(v||"").split(",").map(z=>z.trim()).filter(Boolean);
 const nl2=v=>esc(v).replace(/\n/g,"<br>");
 const LBL=new Set(["wa","web","loc","book","ig","fb","li","tt","x","yt","gh"]);
 const POS={t:"12%",c:"50%",b:"88%"};
+const LNAME={phone:"Phone",email:"Email",wa:"WhatsApp",web:"Website",loc:"Location",book:"Booking",ig:"Instagram",fb:"Facebook",li:"LinkedIn",tt:"TikTok",x:"X",yt:"YouTube",gh:"GitHub"};
+const CMD={phone:"call",email:"mail",wa:"chat",loc:"map",book:"book",web:"open",ig:"ig",fb:"fb",li:"in",tt:"tiktok",x:"x",yt:"yt",gh:"git"};
+const GRP1=["phone","email","wa","loc","book"];
+const NAVL={contact:"Contact",about:"About",exp:"Experience",edu:"Education",skills:"Skills",svc:"Services",gal:"Gallery",tst:"Reviews",hrs:"Hours",pay:"Pay",lang:"Languages",cert:"Certs"};
 function pretty(k,v){if(!/^https?:\/\//i.test(v)&&!/\.[a-z]{2,}\//i.test(v))return v;let t=v.replace(/^https?:\/\/(www\.)?/i,"").replace(/[?#].*$/,"").replace(/\/+$/,"");const seg=t.split("/").filter(Boolean);if(["ig","tt","x","yt","gh","fb","li"].includes(k)&&seg.length>1){const h=seg[seg.length-1].replace(/^@/,"");return(["ig","tt","x","yt","gh"].includes(k)?"@":"")+h}return t}
 function card(s,t){
  const g=k=>s.on[k]&&String(s.v[k]||"").trim()?String(s.v[k]).trim():"";
  const x=s.x||{},on=k=>s.on[k],im=s.img||{};
  const co=g("co"),nm=g("name"),av=on("av")?safeImg(im.av):"",cv=on("cv")?safeImg(im.cv):"";
  const ban=co?`<div class="ban"><span class="lg">${esc(co[0].toUpperCase())}</span>${esc(co)}</div>`:"";
- const ph=on("av")?`<div class="ph${av?" im":""}" ${av?`style="background-image:url('${av}');background-position:center ${POS[s.avp||"t"]}"`:""}>${av?"":esc((nm||co||"A")[0].toUpperCase())}</div>`:"";
+ const ph=on("av")?`<div class="ph${av?" im":""}" data-tilt ${av?`style="background-image:url('${av}');background-position:center ${POS[s.avp||"t"]}"`:""}>${av?"":esc((nm||co||"A")[0].toUpperCase())}</div>`:"";
  const cover=cv&&t!=="corp"?`<div class="cover" style="background-image:url('${cv}');background-position:center ${POS[s.cvp||"c"]}"></div>`:"";
  const note=on("note")&&x.note&&x.note.trim()?`<div class="nt">${esc(x.note.trim())}</div>`:"";
  const badge=on("badge")&&x.badge&&x.badge.trim()?`<div class="bd2">${esc(x.badge.trim())}</div>`:"";
  let n=0,sn=0;const lab=k=>{const l=String((s.lbl&&s.lbl[k])||"").trim();return l||(LBL.has(k)?pretty(k,g(k)):g(k))};
- const li=F.filter(f=>f[3]!=="id"&&g(f[0])).map(f=>{const[i,fn]=LK[f[0]];const tx=lab(f[0]);return `<li class="${tx.length>17?"wide":""}" style="--i:${n++}"><a href="${esc(fn(g(f[0])))}" target="_blank" rel="noopener">${ib(i)}<span>${esc(tx)}</span></a></li>`}).join("")
-  +(on("links")?T(x.links).filter(i=>i.l&&i.u).map(i=>`<li style="--i:${n++}"><a href="${esc(u("")(String(i.u).trim()))}" target="_blank" rel="noopener">${ib("↗")}<span>${esc(i.l)}</span></a></li>`).join(""):"");
- const SX=(h,b)=>`<section class="sx" style="--i:${sn++}"><h4>${h}</h4>${b}</section>`;
+ const items=F.filter(f=>f[3]!=="id"&&g(f[0])).map(f=>{const k=f[0],[i,fn]=LK[k],tx=lab(k);return{g:GRP1.includes(k)?1:2,h:`<li class="${tx.length>24?"wide":""}" style="--i:${n++}"><a href="${esc(fn(g(k)))}" target="_blank" rel="noopener" data-tilt data-l="${LNAME[k]}" data-c="${CMD[k]}">${ib(i)}<span>${esc(tx)}</span></a></li>`}});
+ if(on("links"))T(x.links).filter(i=>i.l&&i.u).forEach(i=>items.push({g:1,h:`<li style="--i:${n++}"><a href="${esc(u("")(String(i.u).trim()))}" target="_blank" rel="noopener" data-tilt data-l="Link" data-c="go">${ib("↗")}<span>${esc(i.l)}</span></a></li>`}));
+ const l1=items.filter(z=>z.g===1).map(z=>z.h).join(""),l2=items.filter(z=>z.g===2).map(z=>z.h).join("");
+ const lists=`${l1?`<ul class="l1" data-sx="contact">${l1}</ul>`:""}${l2?`<ul class="l2"${l1?"":' data-sx="contact"'}>${l2}</ul>`:""}`;
+ const navT=(l1||l2)?[["contact"]]:[];
+ const SX=(key,h,b)=>{navT.push([key]);return `<section class="sx" data-sx="${key}" style="--i:${sn++}"><h4>${h}</h4>${b}</section>`};
  const tl=a=>`<ol class="tl">${a.map((i,k)=>`<li style="--j:${k}"><b>${esc(i.t)}</b>${i.o?`<span class="o">${esc(i.o)}</span>`:""}${i.p?`<em>${esc(i.p)}</em>`:""}${i.d?`<p>${esc(i.d)}</p>`:""}</li>`).join("")}</ol>`;
  const chips=v=>`<div class="chips2">${chipsOf(v).map(c=>`<span>${esc(c)}</span>`).join("")}</div>`;
  let sx="";
- if(on("about")&&x.about&&x.about.trim())sx+=SX("About",`<p>${nl2(x.about.trim())}</p>`);
- if(on("exp")&&T(x.exp).length)sx+=SX("Experience",tl(T(x.exp)));
- if(on("edu")&&T(x.edu).length)sx+=SX("Education",tl(T(x.edu)));
- if(on("skills")&&chipsOf(x.skills).length)sx+=SX("Skills",chips(x.skills));
- if(on("svc")&&T(x.svc).length)sx+=SX("Services",T(x.svc).map(i=>`<div class="sv"><div><b>${esc(i.t)}</b>${i.d?`<small>${esc(i.d)}</small>`:""}</div>${i.p?`<span>${esc(i.p)}</span>`:""}</div>`).join(""));
+ if(on("about")&&x.about&&x.about.trim())sx+=SX("about","About",`<p>${nl2(x.about.trim())}</p>`);
+ if(on("exp")&&T(x.exp).length)sx+=SX("exp","Experience",tl(T(x.exp)));
+ if(on("edu")&&T(x.edu).length)sx+=SX("edu","Education",tl(T(x.edu)));
+ if(on("skills")&&chipsOf(x.skills).length)sx+=SX("skills","Skills",chips(x.skills));
+ if(on("svc")&&T(x.svc).length)sx+=SX("svc","Services",T(x.svc).map(i=>`<div class="sv"><div><b>${esc(i.t)}</b>${i.d?`<small>${esc(i.d)}</small>`:""}</div>${i.p?`<span>${esc(i.p)}</span>`:""}</div>`).join(""));
  const gal=on("gal")?(im.gal||[]).map(safeImg).filter(Boolean):[];
- if(gal.length)sx+=SX("Gallery",`<div class="gl g${Math.min(gal.length,6)}">${gal.map((v,i)=>`<img src="${v}" alt="Photo ${i+1}" loading="lazy" decoding="async" data-lb data-i="${i}">`).join("")}</div>`);
- if(on("tst")&&T(x.tst).length)sx+=SX("Reviews",T(x.tst).map(i=>`<blockquote><p>${esc(i.q)}</p>${i.n?`<cite>${esc(i.n)}</cite>`:""}</blockquote>`).join(""));
- if(on("hrs")&&T(x.hrs).length)sx+=SX("Opening hours",T(x.hrs).map(i=>`<div class="hr"><span>${esc(i.d)}</span><b>${esc(i.h)}</b></div>`).join(""));
- if(on("pay")&&T(x.pay).length)sx+=SX("Payment",T(x.pay).map(i=>`<div class="hr"><span>${esc(i.l)}</span><b>${esc(i.v)}</b><button class="cpy" type="button" data-copy="${esc(i.v)}">Copy</button></div>`).join(""));
- if(on("lang")&&chipsOf(x.lang).length)sx+=SX("Languages",chips(x.lang));
- if(on("cert")&&chipsOf(x.cert).length)sx+=SX("Certifications",chips(x.cert));
- const id=`${nm?`<h3 style="--n:${[...nm].length}">${esc(nm)}</h3>`:""}${g("role")?`<p class="role">${esc(g("role"))}</p>`:""}${badge}${g("tag")?`<p class="tg">${esc(g("tag"))}</p>`:""}<ul>${li}</ul><div class="ctas"><span class="cta" data-act="save">Save contact</span><span class="cta gh" data-act="share">Share</span></div>${sx}<p class="pw">Powered by LazyCard</p>`;
+ if(gal.length)sx+=SX("gal","Gallery",`<div class="gl g${Math.min(gal.length,6)}">${gal.map((v,i)=>`<img src="${v}" alt="Photo ${i+1}" loading="lazy" decoding="async" data-lb data-i="${i}">`).join("")}</div>`);
+ if(on("tst")&&T(x.tst).length)sx+=SX("tst","Reviews",T(x.tst).map(i=>`<blockquote><p>${esc(i.q)}</p>${i.n?`<cite>${esc(i.n)}</cite>`:""}</blockquote>`).join(""));
+ if(on("hrs")&&T(x.hrs).length)sx+=SX("hrs","Opening hours",T(x.hrs).map(i=>`<div class="hr"><span>${esc(i.d)}</span><b>${esc(i.h)}</b></div>`).join(""));
+ if(on("pay")&&T(x.pay).length)sx+=SX("pay","Payment",T(x.pay).map(i=>`<div class="hr"><span>${esc(i.l)}</span><b>${esc(i.v)}</b><button class="cpy" type="button" data-copy="${esc(i.v)}">Copy</button></div>`).join(""));
+ if(on("lang")&&chipsOf(x.lang).length)sx+=SX("lang","Languages",chips(x.lang));
+ if(on("cert")&&chipsOf(x.cert).length)sx+=SX("cert","Certifications",chips(x.cert));
+ const navBar=navT.length>=2?`<nav class="tn" aria-label="Page sections">${navT.slice(0,5).map(([k])=>`<button type="button" data-go="${k}">${NAVL[k]}</button>`).join("")}</nav>`:"";
+ const id=`${nm?`<h3 style="--n:${[...nm].length}">${esc(nm)}</h3>`:""}${g("role")?`<p class="role">${esc(g("role"))}</p>`:""}${badge}${g("tag")?`<p class="tg">${esc(g("tag"))}</p>`:""}${navBar}${lists}<div class="ctas"><span class="cta" data-act="save">Save contact</span><span class="cta gh" data-act="share">Share</span></div>${sx}<p class="pw">Powered by LazyCard</p>`;
  if(t==="corp")return `<div class="hd" ${cv?`style="background-image:linear-gradient(120deg,rgba(10,8,30,.55),rgba(10,8,30,.15)),url('${cv}');background-size:cover;background-position:center ${POS[s.cvp||"c"]}"`:""}>${ban}${note}</div><div class="bd">${ph}${id}</div>`;
  return cover+note+ban+ph+id;
 }
 const onColor=c=>{const v=parseInt(String(c).slice(1),16),r=v>>16&255,g=v>>8&255,b=v&255;return(.299*r+.587*g+.114*b)>165?"#14121f":"#ffffff"};
-function paint(el,s,t){el.dataset.t=t;el.dataset.k=s.k||"call";el.style.setProperty("--a",s.c);el.style.setProperty("--on",onColor(s.c));el.innerHTML=card(s,t)}
+function paint(el,s,t){const mq=String((s.on.co&&s.v.co)||(s.on.name&&s.v.name)||"LazyCard").toUpperCase().replace(/["\\]/g,"");const unit=mq+"  \u25C6  ";el.style.setProperty("--mq",'"'+unit.repeat(7)+unit.repeat(7)+'"');el.dataset.t=t;el.dataset.k=s.k||"call";el.style.setProperty("--a",s.c);el.style.setProperty("--on",onColor(s.c));el.innerHTML=card(s,t)}
 const thumb=(k,sc)=>`<div class="sc" style="--s:${sc}"><div class="card" data-t="${k}" data-k="call" style="--a:${accent(k)};--on:${onColor(accent(k))}">${card(DS,k)}</div></div>`;
 let tmr;function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(tmr);tmr=setTimeout(()=>t.classList.remove("on"),2400)}
 function burst(){if(reduce)return;const c=[...CO,"#E8C27A","#fff"];for(let i=0;i<36;i++){const e=document.createElement("span");e.className="cf";e.style.left=Math.random()*100+"vw";e.style.background=c[i%c.length];e.style.animationDelay=Math.random()*.4+"s";e.style.animationDuration=1.5+Math.random()*1.2+"s";document.body.appendChild(e);setTimeout(()=>e.remove(),3200)}}
